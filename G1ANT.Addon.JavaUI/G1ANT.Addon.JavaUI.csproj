@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B3790AAD-2663-4E1D-9FE5-7262F4F3E058}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>G1ANT.Addon.JavaUI</RootNamespace>
     <AssemblyName>G1ANT.Addon.JavaUI</AssemblyName>
@@ -79,6 +79,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\NodeModel.cs" />
+    <Compile Include="PathParser\IPathParser.cs" />
+    <Compile Include="PathParser\JPathService.cs" />
     <Compile Include="PathParser\PathElement.cs" />
     <Compile Include="PathParser\PathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

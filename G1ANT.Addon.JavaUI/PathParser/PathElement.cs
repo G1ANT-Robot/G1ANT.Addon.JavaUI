@@ -8,7 +8,9 @@ namespace G1ANT.Addon.JavaUI.PathParser
         public string Name { get; }
         public string Description { get; }
         public string Role { get; }
-        public int Index { get; }
+        public int? Index { get; }
+        public int Id { get; }
+        public bool IsWildCard { get; }
 
         private static string StripIndex(string value)
         {
@@ -25,13 +27,14 @@ namespace G1ANT.Addon.JavaUI.PathParser
         public PathElement(string element)
         {
             if (element.Contains('/'))
-                throw new Exception("Slash is used to separate elements and cannot be used inside single path element definition");
+                throw new Exception($"'{PathParser.PathSeparator}' is used to separate path elements and cannot be used inside single path element definition");
 
             var fieldName = "Name";
             var value = element;
 
-
-            if (element.Contains('='))
+            if (element.First() == PathParser.Wildcard)
+                IsWildCard = true;
+            else if (element.Contains('='))
             {
                 var fieldAndValue = element.Split('=');
                 if (fieldAndValue.Count() != 2)
@@ -54,13 +57,19 @@ namespace G1ANT.Addon.JavaUI.PathParser
                     case "type":
                         Role = valueWithoutIndex;
                         break;
+                    case "id":
+                        Id = int.Parse(valueWithoutIndex);
+                        break;
                     default:
                         throw new Exception($"Unknown or empty field name '{valueWithoutIndex}'");
                 }
             }
             else
             {
-                Name = StripIndex(value);
+                if (int.TryParse(value, out int id))
+                    Id = id;
+                else
+                    Name = StripIndex(value);
             }
 
             if (value.Contains('[') && value.Contains(']'))
@@ -81,5 +90,10 @@ namespace G1ANT.Addon.JavaUI.PathParser
             }
         }
 
+
+        public override string ToString()
+        {
+            return $"Name={Name}, Description={Description}, Role={Role}, Index={Index}, Id={Id}, IsWildCard={IsWildCard}";
+        }
     }
 }

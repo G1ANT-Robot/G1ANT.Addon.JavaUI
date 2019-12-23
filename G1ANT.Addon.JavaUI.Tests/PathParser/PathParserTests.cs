@@ -14,6 +14,14 @@ namespace G1ANT.Addon.JavaUI.Tests
         }
 
 
+        [TestCase("")]
+        [TestCase("/")]
+        public void ShouldReturnSingleElement_WhenPathIsEmpty(string path)
+        {
+            var result = put.Parse(path);
+            Assert.AreEqual(0, result.Count);
+        }
+
         [TestCase("/name")]
         [TestCase("name")]
         public void ShouldReturnSingleElement_WhenPathContainsSingleElement(string path)

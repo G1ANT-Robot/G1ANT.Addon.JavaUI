@@ -1,4 +1,5 @@
-﻿using System;
+﻿using G1ANT.Addon.JavaUI.PathParser;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
@@ -65,8 +66,24 @@ namespace G1ANT.Addon.JavaUI
             _accessBridge.Functions.Windows_run();
         }
 
+
+        //public class TreeWalker
+        //{
+        //    public AccessibleContextNode GetByPath()
+        //    {}
+        //}
+
         private void button1_Click(object sender, EventArgs e)
         {
+            var parser = new PathParser.PathParser();
+            //var path = parser.Parse("/12061974/type=frame");
+
+
+            var ps = new JPathService(parser, _accessBridge);
+            var el = ps.Get("/*/type=frame/type=root pane/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
+            el.DoAction("click");
+
+
             textBox1.Text = "";
             var jvms = EnumJvms();
             //int level = 0;
