@@ -27,18 +27,18 @@ namespace G1ANT.Addon.JavaUI.PathParser
         public PathElement(string element)
         {
             if (element.Contains('/'))
-                throw new Exception($"'{PathParser.PathSeparator}' is used to separate path elements and cannot be used inside single path element definition");
+                throw new ArgumentException($"'{PathParser.PathSeparator}' is used to separate path elements and cannot be used inside single path element definition");
 
             var fieldName = "Name";
             var value = element;
 
-            if (element.First() == PathParser.Wildcard)
+            if (element.FirstOrDefault() == PathParser.Wildcard)
                 IsWildCard = true;
             else if (element.Contains('='))
             {
                 var fieldAndValue = element.Split('=');
                 if (fieldAndValue.Count() != 2)
-                    throw new Exception("Syntax is fieldName=value");
+                    throw new ArgumentException("Syntax is fieldName=value");
 
                 fieldName = fieldAndValue[0];
                 value = fieldAndValue[1];
@@ -61,7 +61,7 @@ namespace G1ANT.Addon.JavaUI.PathParser
                         Id = int.Parse(valueWithoutIndex);
                         break;
                     default:
-                        throw new Exception($"Unknown or empty field name '{valueWithoutIndex}'");
+                        throw new ArgumentException($"Unknown or empty field name '{valueWithoutIndex}'");
                 }
             }
             else
@@ -83,10 +83,10 @@ namespace G1ANT.Addon.JavaUI.PathParser
                 }
                 catch
                 {
-                    throw new Exception("Child index must be defined as [number]");
+                    throw new ArgumentException("Child index must be defined as [number]");
                 }
-                if (Index <= 0)
-                    throw new Exception("Child index must be positive integer");
+                if (Index < 0)
+                    throw new ArgumentOutOfRangeException("Child index must be a not negative integer");
             }
         }
 

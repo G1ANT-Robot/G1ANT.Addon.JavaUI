@@ -80,7 +80,7 @@ namespace G1ANT.Addon.JavaUI
 
 
             var ps = new JPathService(parser, _accessBridge);
-            var el = ps.Get("/*/type=frame/type=root pane/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
+            var el = ps.Get("/*/type=frame/type=root pane[0]/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
             el.DoAction("click");
 
 
