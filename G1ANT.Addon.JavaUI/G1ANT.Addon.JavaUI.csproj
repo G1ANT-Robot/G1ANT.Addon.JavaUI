@@ -78,13 +78,25 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainAddon.cs" />
+    <Compile Include="JavaUIAddon.cs" />
     <Compile Include="Model\NodeModel.cs" />
+    <Compile Include="Panels\JavaUIControlsTreePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\JavaUIControlsTreePanel.Designer.cs">
+      <DependentUpon>JavaUIControlsTreePanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="PathParser\IPathParser.cs" />
     <Compile Include="PathParser\JPathService.cs" />
+    <Compile Include="PathParser\NodeService.cs" />
     <Compile Include="PathParser\PathElement.cs" />
     <Compile Include="PathParser\PathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Structures\JPathStructure.cs" />
     <Compile Include="XPathParser\IXpathBuilder.cs" />
     <Compile Include="XPathParser\XPathAxis.cs" />
@@ -103,10 +115,23 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\JavaUIControlsTreePanel.resx">
+      <DependentUpon>JavaUIControlsTreePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\insert_into.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

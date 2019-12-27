@@ -67,19 +67,13 @@ namespace G1ANT.Addon.JavaUI
         }
 
 
-        //public class TreeWalker
-        //{
-        //    public AccessibleContextNode GetByPath()
-        //    {}
-        //}
-
         private void button1_Click(object sender, EventArgs e)
         {
             var parser = new PathParser.PathParser();
             //var path = parser.Parse("/12061974/type=frame");
 
 
-            var ps = new JPathService(parser, _accessBridge);
+            var ps = new JPathService(parser, new NodeService(_accessBridge));
             var el = ps.Get("/*/type=frame/type=root pane[0]/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
             el.DoAction("click");
 

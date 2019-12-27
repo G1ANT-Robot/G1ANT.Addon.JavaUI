@@ -23,12 +23,11 @@ namespace G1ANT.Addon.JavaUI
         public int Width { get; private set; }
         public int X { get; private set; }
         public int Y { get; private set; }
-
-        private AccessibleNode node;
+        public AccessibleNode Node { get; private set; }
 
         public NodeModel(AccessibleNode node)
         {
-            this.node = node;
+            this.Node = node ?? throw new ArgumentNullException(nameof(node));
 
             switch (node)
             {
@@ -86,7 +85,6 @@ namespace G1ANT.Addon.JavaUI
             }
         }
 
-
         public void DoAction(string action)
         {
             if (!Actions.Contains(action))
@@ -94,9 +92,9 @@ namespace G1ANT.Addon.JavaUI
 
             var actionsToDo = CreateActionsToDo(action);
 
-            node.AccessBridge.Functions.DoAccessibleActions(
-                node.JvmId,
-                ((AccessibleContextNode)node).AccessibleContextHandle,
+            Node.AccessBridge.Functions.DoAccessibleActions(
+                Node.JvmId,
+                ((AccessibleContextNode)Node).AccessibleContextHandle,
                 ref actionsToDo,
                 out int failure
             );
@@ -118,7 +116,7 @@ namespace G1ANT.Addon.JavaUI
 
         public void Dispose()
         {
-            node.Dispose();
+            Node.Dispose();
         }
     }
 }
