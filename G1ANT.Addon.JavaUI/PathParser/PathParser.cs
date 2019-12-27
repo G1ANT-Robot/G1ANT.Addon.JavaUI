@@ -22,7 +22,7 @@ namespace G1ANT.Addon.JavaUI.PathParser
             if (elementsPath.Count() < 2)
                 throw new ArgumentException("Please specify path that contains at least JVM id and window handle");
 
-            if (elementsPath[0].Id == 0 && !elementsPath[0].IsWildCard)
+            if (elementsPath[0].Id == 0 && !elementsPath[0].IsWildcard)
                 throw new ArgumentException("First element of path must be JVM id or a wildcard (*)");
 
             return elementsPath;

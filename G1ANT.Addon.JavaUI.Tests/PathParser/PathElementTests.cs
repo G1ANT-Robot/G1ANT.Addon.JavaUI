@@ -67,7 +67,7 @@ namespace G1ANT.Addon.JavaUI.Tests
         {
             var result = new PathElement(PathParser.PathParser.Wildcard.ToString());
 
-            Assert.IsTrue(result.IsWildCard);
+            Assert.IsTrue(result.IsWildcard);
             Assert.IsNull(result.Name);
             Assert.IsNull(result.Index);
             Assert.IsNull(result.Role);
@@ -132,7 +132,7 @@ namespace G1ANT.Addon.JavaUI.Tests
             var result = new PathElement($"{PathParser.PathParser.Wildcard}[{index}]");
 
             Assert.IsNull(result.Name);
-            Assert.IsTrue(result.IsWildCard);
+            Assert.IsTrue(result.IsWildcard);
             Assert.AreEqual(index, result.Index);
             Assert.IsNull(result.Role);
             Assert.IsNull(result.Description);

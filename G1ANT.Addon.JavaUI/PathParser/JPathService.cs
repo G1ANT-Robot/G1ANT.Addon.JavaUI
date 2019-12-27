@@ -53,7 +53,7 @@ namespace G1ANT.Addon.JavaUI.PathParser
 
         private bool IsMatch(AccessibleNode node, PathElement pathElement)
         {
-            if (pathElement.IsWildCard)
+            if (pathElement.IsWildcard)
                 return true;
 
             if (pathElement.Id != 0)
