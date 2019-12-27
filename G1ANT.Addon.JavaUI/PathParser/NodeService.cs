@@ -30,18 +30,6 @@ namespace G1ANT.Addon.JavaUI.PathParser
         public NodeService(AccessBridge accessBridge)
         {
             this.accessBridge = accessBridge;
-
-            if (!initialized)
-            {
-                lock (initializationLock)
-                {
-                    if (!initialized)
-                    {
-                        accessBridge.Functions.Windows_run();
-                        initialized = true;
-                    }
-                }
-            }
         }
 
         public IReadOnlyCollection<AccessibleJvm> GetJvms()

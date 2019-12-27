@@ -5,17 +5,16 @@ using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.PathParser
 {
-    public class JPathService
+    public class PathService : IPathService
     {
         private readonly IPathParser pathParser;
-        private readonly NodeService nodeService;
+        private readonly INodeService nodeService;
 
-        public JPathService(IPathParser pathParser, NodeService nodeService)
+        public PathService(IPathParser pathParser, INodeService nodeService)
         {
             this.pathParser = pathParser;
             this.nodeService = nodeService;
         }
-
 
         private IReadOnlyCollection<AccessibleJvm> GetMatchingJvms(PathElement pathElement)
         {
@@ -86,14 +85,14 @@ namespace G1ANT.Addon.JavaUI.PathParser
             return currentParents;
         }
 
-        public List<NodeModel> GetMultiple(string path)
+        public List<NodeModel> GetMultipleNodes(string path)
         {
             return GetAccessibleNodes(path)
                 .Select(el => new NodeModel(el))
                 .ToList();
         }
 
-        public NodeModel Get(string path)
+        public NodeModel GetNode(string path)
         {
             var nodes = GetAccessibleNodes(path);
 
@@ -101,6 +100,23 @@ namespace G1ANT.Addon.JavaUI.PathParser
                 throw new Exception($"Multiple or no elements found: {string.Join(", ", nodes.OfType<AccessibleContextNode>().Select(e => e.GetTitle()))}");
 
             return new NodeModel(nodes.Single());
+        }
+
+        public string GetPathTo(NodeModel node)
+        {
+            var path = new List<string>();
+            var parent = node.Node;
+            do
+            {
+                path.Add(node.ToPath());
+
+                parent = node.Node.GetParent();
+                if (parent != null)
+                    node = new NodeModel(parent);
+            } while (parent != null);
+
+            path.Reverse();
+            return string.Join("", path);
         }
     }
 }

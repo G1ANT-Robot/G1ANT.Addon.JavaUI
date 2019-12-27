@@ -2,7 +2,6 @@
 using G1ANT.Language;
 using System;
 using System.Windows.Forms;
-using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Panels
 {
@@ -12,13 +11,16 @@ namespace G1ANT.Addon.JavaUI.Panels
         //private Form blinkingRectForm;
 
         private INodeService nodeService;
+        private PathService pathService;
 
         public JavaUIControlsTreePanel()
         {
             InitializeComponent();
+            var accessBridgeFactory = new AccessBridgeFactory();
+            nodeService = new NodeService(accessBridgeFactory.GetAccessBridge());
+            pathService = new PathService(new PathParser.PathParser(), nodeService);
 
-            nodeService = new NodeService(new AccessBridge());
-            //ControlType.Button.GetType();
+            InitRootElements();
         }
 
         public override void Initialize(IMainForm mainForm)
@@ -33,8 +35,8 @@ namespace G1ANT.Addon.JavaUI.Panels
 
         private void InitRootElements()
         {
+            controlsTree.BeginUpdate();
             controlsTree.Nodes.Clear();
-
             var jvms = nodeService.GetJvmNodes();
 
             foreach (var jvm in jvms)
@@ -42,9 +44,40 @@ namespace G1ANT.Addon.JavaUI.Panels
                 var name = $"{jvm.Name} {jvm.JvmId}";
                 var rootNode = controlsTree.Nodes.Add(name);
                 rootNode.Tag = jvm;
-                //rootNode.Nodes.Add("");
-                //rootNode.Expand();
+
+                var windows = nodeService.GetChildNodes(jvm);
+                foreach (var window in windows)
+                {
+                    rootNode.Nodes.Add(CreateTreeNode(window));
+                }
+
+                rootNode.Expand();
             }
+
+            controlsTree.EndUpdate();
+        }
+
+        private TreeNode CreateTreeNode(NodeModel nodeModel)
+        {
+            var name = nodeModel.Role;
+
+            if (nodeModel.Id > 0)
+                name += $" {nodeModel.Id}";
+            if (!string.IsNullOrEmpty(nodeModel.Name))
+            {
+                name += ": ";
+                name += $"\"{nodeModel.Name}\"";
+            }
+
+            var treeNode = new TreeNode(name)
+            {
+                Tag = nodeModel
+            };
+
+            if (nodeModel.ChildrenCount > 0)
+                treeNode.Nodes.Add("");
+
+            return treeNode;
         }
 
         private void controlsTree_AfterCollapse(object sender, TreeViewEventArgs e)
@@ -90,53 +123,40 @@ namespace G1ANT.Addon.JavaUI.Panels
 
         private void controlsTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            e.Node.Nodes.Clear();
-            try
-            {
-                //        if (e.Node.Tag is AutomationElement element)
-                //        {
-                //            AutomationElement elem = TreeWalker.ControlViewWalker.GetFirstChild(element);
-                //            int i = 0;
-                //            while (elem != null)
-                //            {
-                //                var node = e.Node.Nodes.Add(GetTreeNodeName(elem));
-                //                node.ToolTipText = GetTreeNodeTooltip(elem, i++);
-                //                node.Tag = elem;
-                //                node.Nodes.Add("");
+            var currentTreeNode = e.Node;
+            if (currentTreeNode.Parent == null)
+                return; // don't clear jvms and their windows as they are already displayed
 
-                //                elem = TreeWalker.ControlViewWalker.GetNextSibling(elem);
-                //            }
-                //        }
+            var node = (NodeModel)currentTreeNode.Tag;
+            currentTreeNode.Nodes.Clear();
+
+            var children = nodeService.GetChildNodes(node);
+            foreach (var child in children)
+            {
+                currentTreeNode.Nodes.Add(CreateTreeNode(child));
             }
-            catch
-            { }
         }
 
-        private void InsertWPathIntoScript()
+        private void InsertPathIntoScript()
         {
-            try
+            if (controlsTree.SelectedNode != null)
             {
-                if (controlsTree.SelectedNode != null)
-                {
-                    //if (controlsTree.SelectedNode.Tag is AutomationElement automationElement)
-                    //{
-                    //    UIElement uiELement = new UIElement(automationElement);
-                    //    MainForm.InsertTextIntoCurrentEditor($"{SpecialChars.Text}{uiELement.ToWPath().ToString()}{SpecialChars.Text}");
-                    //}
-                }
+                var nodeModel = (NodeModel)controlsTree.SelectedNode.Tag;
+                var path = pathService.GetPathTo(nodeModel);
+
+                if (MainForm == null) MessageBox.Show(path); else
+                MainForm.InsertTextIntoCurrentEditor($"{SpecialChars.Text}{path}{SpecialChars.Text}");
             }
-            catch
-            { }
         }
 
         private void controlsTree_DoubleClick(object sender, EventArgs e)
         {
-            InsertWPathIntoScript();
+            InsertPathIntoScript();
         }
 
         private void insertWPathButton_Click(object sender, EventArgs e)
         {
-            InsertWPathIntoScript();
+            InsertPathIntoScript();
         }
 
         private void refreshButton_Click(object sender, EventArgs e)

@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessBridgeFactory.cs" />
     <Compile Include="Api\UIElement.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
@@ -87,10 +88,11 @@
       <DependentUpon>JavaUIControlsTreePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="PathParser\IPathParser.cs" />
-    <Compile Include="PathParser\JPathService.cs" />
+    <Compile Include="PathParser\IPathService.cs" />
     <Compile Include="PathParser\NodeService.cs" />
     <Compile Include="PathParser\PathElement.cs" />
     <Compile Include="PathParser\PathParser.cs" />
+    <Compile Include="PathParser\PathService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

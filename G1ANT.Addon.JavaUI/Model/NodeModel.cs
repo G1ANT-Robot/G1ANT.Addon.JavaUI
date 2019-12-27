@@ -28,6 +28,7 @@ namespace G1ANT.Addon.JavaUI
         public NodeModel(AccessibleNode node)
         {
             this.Node = node ?? throw new ArgumentNullException(nameof(node));
+            JvmId = node.JvmId;
 
             switch (node)
             {
@@ -92,15 +93,15 @@ namespace G1ANT.Addon.JavaUI
 
             var actionsToDo = CreateActionsToDo(action);
 
-            Node.AccessBridge.Functions.DoAccessibleActions(
+            var result = Node.AccessBridge.Functions.DoAccessibleActions(
                 Node.JvmId,
                 ((AccessibleContextNode)Node).AccessibleContextHandle,
                 ref actionsToDo,
-                out int failure
+                out int failedActionIndex
             );
 
-            if (failure >= 0)
-                throw new Exception($"DoAccessibleActions failed with error code {failure}");
+            if (!result)
+                throw new Exception("DoAccessibleActions failed");
         }
 
         private static AccessibleActionsToDo CreateActionsToDo(string action)
@@ -112,6 +113,23 @@ namespace G1ANT.Addon.JavaUI
             };
             actionsToDo.actions[0] = new AccessibleActionInfo() { name = action };
             return actionsToDo;
+        }
+
+        private string GetSpecificElementSelector()
+        {
+            if (!string.IsNullOrEmpty(Name))
+                return Name;
+            if (!string.IsNullOrEmpty(Role))
+                return $"role={Role}";
+            if (Id != 0)
+                return $"id={Id}";
+
+            return $"[{IndexInParent}]";
+        }
+
+        public string ToPath()
+        {
+            return "/" + (Node is AccessibleJvm ? JvmId.ToString() : GetSpecificElementSelector());
         }
 
         public void Dispose()
