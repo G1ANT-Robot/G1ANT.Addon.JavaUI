@@ -47,6 +47,12 @@ namespace G1ANT.Addon.JavaUI
             }
         }
 
+        public void SetTextContents(string text)
+        {
+            if (!Node.AccessBridge.Functions.SetTextContents(JvmId, ((AccessibleContextNode)Node).AccessibleContextHandle, text))
+                throw new Exception("SetTextContents failed");
+        }
+
         private AccessibleContextInfo GetInfo(AccessibleNode node)
         {
             if (node is AccessibleWindow accessibleWindow)

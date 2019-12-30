@@ -73,6 +73,8 @@
     <Compile Include="Api\UIElement.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Commands\JavaUISetTextCommand.cs" />
+    <Compile Include="Commands\JavaUIGetTextCommand.cs" />
     <Compile Include="Commands\JavaUIDoActionCommand.cs" />
     <Compile Include="Commands\JavaUIClickCommand.cs" />
     <Compile Include="Form1.cs">
@@ -102,6 +104,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Structures\NodeStructure.cs" />
     <Compile Include="Structures\JPathStructure.cs" />
     <Compile Include="XPathParser\IXpathBuilder.cs" />
     <Compile Include="XPathParser\XPathAxis.cs" />
