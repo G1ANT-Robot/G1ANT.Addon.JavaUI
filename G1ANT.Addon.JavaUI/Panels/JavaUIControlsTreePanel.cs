@@ -1,4 +1,4 @@
-﻿using G1ANT.Addon.JavaUI.PathParser;
+﻿using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 using System;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace G1ANT.Addon.JavaUI.Panels
         public JavaUIControlsTreePanel()
         {
             nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
-            pathService = new PathService(new PathParser.PathParser(), nodeService);
+            pathService = new PathService(new PathParser(), nodeService);
 
             InitializeComponent();
         }

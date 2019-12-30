@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WindowsAccessBridgeInterop;
 
-namespace G1ANT.Addon.JavaUI.PathParser
+namespace G1ANT.Addon.JavaUI.Services
 {
     public interface INodeService
     {

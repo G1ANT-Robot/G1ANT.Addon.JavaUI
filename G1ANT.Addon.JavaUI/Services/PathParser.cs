@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace G1ANT.Addon.JavaUI.PathParser
+namespace G1ANT.Addon.JavaUI.Services
 {
     public class PathParser : IPathParser
     {

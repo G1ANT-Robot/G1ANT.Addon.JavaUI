@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace G1ANT.Addon.JavaUI.PathParser
+namespace G1ANT.Addon.JavaUI.Services
 {
     public interface IPathService
     {

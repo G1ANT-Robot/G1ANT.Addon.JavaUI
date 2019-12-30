@@ -1,4 +1,4 @@
-﻿using G1ANT.Addon.JavaUI.PathParser;
+﻿using G1ANT.Addon.JavaUI.Services;
 using NUnit.Framework;
 using System;
 
@@ -65,7 +65,7 @@ namespace G1ANT.Addon.JavaUI.Tests
         [Test]
         public void ShouldSetWildcard_WhenWildcardIsGiven()
         {
-            var result = new PathElement(PathParser.PathParser.Wildcard.ToString());
+            var result = new PathElement(PathParser.Wildcard.ToString());
 
             Assert.IsTrue(result.IsWildcard);
             Assert.IsNull(result.Name);
@@ -129,7 +129,7 @@ namespace G1ANT.Addon.JavaUI.Tests
         public void ShouldSetWildcardAndIndex_WhenWildcardAndIndexAreGiven()
         {
             const int index = 2;
-            var result = new PathElement($"{PathParser.PathParser.Wildcard}[{index}]");
+            var result = new PathElement($"{PathParser.Wildcard}[{index}]");
 
             Assert.IsNull(result.Name);
             Assert.IsTrue(result.IsWildcard);

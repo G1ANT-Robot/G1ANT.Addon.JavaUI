@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using G1ANT.Addon.JavaUI.Services;
+using NUnit.Framework;
 using System;
 
 namespace G1ANT.Addon.JavaUI.Tests
@@ -6,12 +7,12 @@ namespace G1ANT.Addon.JavaUI.Tests
     [TestFixture]
     public class PathParserTests
     {
-        PathParser.PathParser put;
+        PathParser put;
 
         [SetUp]
         public void Setup()
         {
-            put = new PathParser.PathParser();
+            put = new PathParser();
         }
 
 
