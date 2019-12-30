@@ -1,4 +1,5 @@
-﻿using G1ANT.Language;
+﻿using G1ANT.Addon.JavaUI.Services;
+using G1ANT.Language;
 using System;
 
 namespace G1ANT.Addon.JavaUI
@@ -47,10 +48,12 @@ namespace G1ANT.Addon.JavaUI
         protected override string Parse(string value, string format = null)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return value;
+                throw new ArgumentNullException(nameof(value));
 
             if (value.StartsWith(SpecialChars.Text) && value.EndsWith(SpecialChars.Text))
-                return value.Substring(1).Substring(0, value.Length - 2);
+                value = value.Substring(1).Substring(0, value.Length - 2);
+
+            new PathParser().Parse(value); // validation
 
             return value;
         }

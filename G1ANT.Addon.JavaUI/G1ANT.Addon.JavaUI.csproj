@@ -73,6 +73,8 @@
     <Compile Include="Api\UIElement.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="Commands\JavaUIDoActionCommand.cs" />
+    <Compile Include="Commands\JavaUIClickCommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
