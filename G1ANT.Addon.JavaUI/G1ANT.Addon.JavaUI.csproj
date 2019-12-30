@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B3790AAD-2663-4E1D-9FE5-7262F4F3E058}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>G1ANT.Addon.JavaUI</RootNamespace>
     <AssemblyName>G1ANT.Addon.JavaUI</AssemblyName>
@@ -87,6 +87,7 @@
     <Compile Include="Panels\JavaUIControlsTreePanel.Designer.cs">
       <DependentUpon>JavaUIControlsTreePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="PathParser\INodeService.cs" />
     <Compile Include="PathParser\IPathParser.cs" />
     <Compile Include="PathParser\IPathService.cs" />
     <Compile Include="PathParser\NodeService.cs" />
@@ -135,5 +136,21 @@
   <ItemGroup>
     <None Include="Resources\insert_into.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WindowsAccessBridge.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WindowsAccessBridge-32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\WindowsAccessBridge-64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y C:\projects\Addons\G1ANT.Addon.JavaUI\G1ANT.Addon.JavaUI\bin\Debug\G1ANT.Addon.JavaUI.dll C:\Users\Łukasz\Documents\G1ANT.Robot\Add-on\G1ANT.Addon.JavaUI.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>

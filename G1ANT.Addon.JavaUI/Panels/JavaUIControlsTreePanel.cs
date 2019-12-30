@@ -1,6 +1,7 @@
 ﻿using G1ANT.Addon.JavaUI.PathParser;
 using G1ANT.Language;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace G1ANT.Addon.JavaUI.Panels
@@ -11,26 +12,34 @@ namespace G1ANT.Addon.JavaUI.Panels
         //private Form blinkingRectForm;
 
         private INodeService nodeService;
-        private PathService pathService;
+        private IPathService pathService;
 
         public JavaUIControlsTreePanel()
         {
-            InitializeComponent();
-            var accessBridgeFactory = new AccessBridgeFactory();
-            nodeService = new NodeService(accessBridgeFactory.GetAccessBridge());
+            nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
             pathService = new PathService(new PathParser.PathParser(), nodeService);
 
-            InitRootElements();
+            InitializeComponent();
         }
+
+        public JavaUIControlsTreePanel(INodeService nodeService, IPathService pathService) // IoC
+        {
+            this.nodeService = nodeService;
+            this.pathService = pathService;
+
+            InitializeComponent();
+        }
+
 
         public override void Initialize(IMainForm mainForm)
         {
             base.Initialize(mainForm);
-            InitRootElements();
+            
         }
 
         public override void RefreshContent()
         {
+            InitRootElements();
         }
 
         private void InitRootElements()
@@ -46,10 +55,7 @@ namespace G1ANT.Addon.JavaUI.Panels
                 rootNode.Tag = jvm;
 
                 var windows = nodeService.GetChildNodes(jvm);
-                foreach (var window in windows)
-                {
-                    rootNode.Nodes.Add(CreateTreeNode(window));
-                }
+                rootNode.Nodes.AddRange(windows.Select(w => CreateTreeNode(w)).ToArray());
 
                 rootNode.Expand();
             }

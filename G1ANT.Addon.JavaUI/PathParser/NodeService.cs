@@ -5,27 +5,9 @@ using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.PathParser
 {
-    public interface INodeService
-    {
-        IReadOnlyCollection<AccessibleJvm> GetJvms();
-        IReadOnlyCollection<NodeModel> GetJvmNodes();
-
-        IReadOnlyCollection<AccessibleNode> GetChildren(AccessibleNode node);
-        IReadOnlyCollection<NodeModel> GetChildNodes(NodeModel node);
-
-        AccessibleContextInfo GetNodeInfo(AccessibleNode node);
-    }
-
     public class NodeService : INodeService
     {
         private readonly AccessBridge accessBridge;
-        private static bool initialized = false;
-        private static object initializationLock = new object();
-
-        static NodeService()
-        {
-            new AccessBridge().Functions.Windows_run();
-        }
 
         public NodeService(AccessBridge accessBridge)
         {

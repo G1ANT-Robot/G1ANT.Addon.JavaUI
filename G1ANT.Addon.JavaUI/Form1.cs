@@ -4,16 +4,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using WindowsAccessBridgeInterop;
-using WindowsAccessBridgeInterop.Win32;
 
 namespace G1ANT.Addon.JavaUI
 {
     public partial class Form1 : Form
     {
-        private readonly AccessBridge _accessBridge = new AccessBridgeFactory().GetAccessBridge();
-        private readonly HwndCache _windowCache = new HwndCache();
+        //private readonly AccessBridge _accessBridge = new AccessBridgeFactory().GetAccessBridge();
+        //private readonly HwndCache _windowCache = new HwndCache();
         private PathService pathService;
 
         public class HwndCache
@@ -37,42 +37,55 @@ namespace G1ANT.Addon.JavaUI
         }
 
 
-        public List<AccessibleJvm> EnumJvms()
-        {
-            _accessBridge.Initialize();
-            return _accessBridge.EnumJvms(hwnd => _windowCache.Get(_accessBridge, hwnd));
-        }
+        //public List<AccessibleJvm> EnumJvms()
+        //{
+        //    _accessBridge.Initialize();
+        //    return _accessBridge.EnumJvms(hwnd => _windowCache.Get(_accessBridge, hwnd));
+        //}
 
 
-        public void Run()
-        {
-            //AccessibleContext Ac = new AccessibleContext();
-            //AccessibleContextInfo Info = new AccessibleContextInfo();
-            NativeMethods.EnumWindows((hWnd, lParam) =>
-            {
-                if (_accessBridge.Functions.IsJavaWindow(hWnd))
-                {
-                }
-                return true;
-            }, IntPtr.Zero);
-        }
+        //public void Run()
+        //{
+        //    //AccessibleContext Ac = new AccessibleContext();
+        //    //AccessibleContextInfo Info = new AccessibleContextInfo();
+        //    NativeMethods.EnumWindows((hWnd, lParam) =>
+        //    {
+        //        if (_accessBridge.Functions.IsJavaWindow(hWnd))
+        //        {
+        //        }
+        //        return true;
+        //    }, IntPtr.Zero);
+        //}
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        dynamic nodeService;
         private void Form1_Load(object sender, EventArgs e)
         {
             //_accessBridge.Functions.Windows_run();
-            pathService = new PathService(new PathParser.PathParser(), new NodeService(_accessBridge));
+            //var a = Assembly.LoadFrom(@"G1ANT.Addon.JavaUI.exe");
+            //var accessBridgeFactoryType = a.ExportedTypes.Single(t => t.Name == "AccessBridgeFactory");
+            //var nodeServiceType = a.ExportedTypes.Single(t => t.Name == "NodeService");
+
+            //dynamic accessBridgeFactory = Activator.CreateInstance(accessBridgeFactoryType);
+            //dynamic accessBridge = accessBridgeFactory.GetAccessBridge();
+            //accessBridge.Functions.Windows_run();
+            new AccessBridgeFactory().GetAccessBridge().Functions.Windows_run();
+            //nodeService = Activator.CreateInstance(nodeServiceType, new AccessBridgeFactory().GetAccessBridge()); //(object)accessBridge);
+            nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
         }
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var el = pathService.GetNode("/*/type=frame/type=root pane[0]/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
-            el.DoAction("click");
+            var jvms = nodeService.GetJvms();
+        }
+            //pathService = new PathService(new PathParser.PathParser(), new NodeService(new AccessBridgeFactory().GetAccessBridge()));
+            //var el = pathService.GetNode("/*/type=frame/type=root pane[0]/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
+            //el.DoAction("click");
 
 
             //textBox1.Text = "";
@@ -138,9 +151,9 @@ namespace G1ANT.Addon.JavaUI
             ////var context = node.
 
             //_accessBridge.Functions.GetAccessibleActions(_jvm.JvmId, w.AccessibleContextHandle, out AccessibleActions aa);
-            
+
             //_accessBridge.Functions.DoAccessibleActions(_jvm.JvmId, w.AccessibleContextHandle, ref action, out int failure);
 
-        }
+        //}
     }
 }

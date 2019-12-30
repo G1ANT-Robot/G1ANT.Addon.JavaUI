@@ -11,9 +11,6 @@ namespace G1ANT.Addon.JavaUI
             accessBridge.Functions.Windows_run(); // it's a shit because it needs some (!) time to run in the background in order to collect all java vms/windows
         }
 
-        public AccessBridge GetAccessBridge()
-        {
-            return accessBridge;
-        }
+        public AccessBridge GetAccessBridge() => accessBridge;
     }
 }
