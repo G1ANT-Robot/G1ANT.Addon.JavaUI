@@ -477,6 +477,13 @@ namespace WindowsAccessBridgeInterop {
       return Succeeded(result);
     }
 
+    public override bool RequestFocus(int vmid, JavaObjectHandle ac)
+    {
+      var result = EntryPoints.RequestFocus(vmid, Unwrap(vmid, ac));
+      GC.KeepAlive(ac);
+      return Succeeded(result);
+    }
+
     public override void Windows_run() {
       EntryPoints.Windows_run();
     }
@@ -1559,6 +1566,7 @@ namespace WindowsAccessBridgeInterop {
     public RemoveAccessibleSelectionFromContextFP RemoveAccessibleSelectionFromContext { get; set; }
     public SelectAllAccessibleSelectionFromContextFP SelectAllAccessibleSelectionFromContext { get; set; }
     public SetTextContentsFP SetTextContents { get; set; }
+    public RequestFocusFP RequestFocus { get; set; }
     public Windows_runFP Windows_run { get; set; }
     #endregion
 
@@ -1721,6 +1729,8 @@ namespace WindowsAccessBridgeInterop {
     public delegate void SelectAllAccessibleSelectionFromContextFP(int vmid, JOBJECT64 asel);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     public delegate BOOL SetTextContentsFP(int vmid, JOBJECT64 ac, string text);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+    public delegate BOOL RequestFocusFP(int vmid, JOBJECT64 ac);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
     public delegate void Windows_runFP();
     #endregion
