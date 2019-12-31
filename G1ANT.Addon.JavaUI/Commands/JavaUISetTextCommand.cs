@@ -8,11 +8,11 @@ namespace G1ANT.Addon.UI
         Tooltip = "This command inserts text into a specified UI element of a desktop Java application window")]
     public class JavaUISetTextCommand : Command
     {
-        private PathService pathService;
+        private IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to be clicked")]
+            [Argument(Required = true, Tooltip = "Desktop Java application UI element to set the text")]
             public JavaPathStructure Path { get; set; }
 
             [Argument(Required = true, Tooltip = "Text to be inserted into a specified UI element")]

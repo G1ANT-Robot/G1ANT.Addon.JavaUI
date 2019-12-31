@@ -8,11 +8,11 @@ namespace G1ANT.Addon.UI
         Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]
     public class JavaUIGetTextCommand : Command
     {
-        private PathService pathService;
+        private IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to be clicked")]
+            [Argument(Required = true, Tooltip = "Desktop Java application UI element to get text from")]
             public JavaPathStructure Path { get; set; }
 
             [Argument(Required = true, Tooltip = "Name of a variable where the command's result will be stored")]

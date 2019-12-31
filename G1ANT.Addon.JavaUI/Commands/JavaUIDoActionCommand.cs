@@ -8,7 +8,7 @@ namespace G1ANT.Addon.UI
         Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]
     public class JavaUIDoActionCommand : Command
     {
-        protected PathService pathService;
+        protected IPathService pathService;
 
         public class Arguments : CommandArguments
         {
