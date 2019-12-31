@@ -1,12 +1,6 @@
-﻿using G1ANT.Addon.JavaUI.PathParser;
+﻿using G1ANT.Addon.JavaUI.Services;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI
 {
@@ -14,27 +8,27 @@ namespace G1ANT.Addon.JavaUI
     {
         //private readonly AccessBridge _accessBridge = new AccessBridgeFactory().GetAccessBridge();
         //private readonly HwndCache _windowCache = new HwndCache();
-        private PathService pathService;
+        //private PathService pathService;
 
-        public class HwndCache
-        {
-            private readonly ConcurrentDictionary<IntPtr, AccessibleWindow> _cache = new ConcurrentDictionary<IntPtr, AccessibleWindow>();
+        //public class HwndCache
+        //{
+        //    private readonly ConcurrentDictionary<IntPtr, AccessibleWindow> _cache = new ConcurrentDictionary<IntPtr, AccessibleWindow>();
 
-            public AccessibleWindow Get(AccessBridge accessBridge, IntPtr hwnd)
-            {
-                return _cache.GetOrAdd(hwnd, key => accessBridge.CreateAccessibleWindow(key));
-            }
+        //    public AccessibleWindow Get(AccessBridge accessBridge, IntPtr hwnd)
+        //    {
+        //        return _cache.GetOrAdd(hwnd, key => accessBridge.CreateAccessibleWindow(key));
+        //    }
 
-            public void Clear()
-            {
-                _cache.Clear();
-            }
+        //    public void Clear()
+        //    {
+        //        _cache.Clear();
+        //    }
 
-            public IEnumerable<AccessibleWindow> Windows
-            {
-                get { return _cache.Values.Where(x => x != null); }
-            }
-        }
+        //    public IEnumerable<AccessibleWindow> Windows
+        //    {
+        //        get { return _cache.Values.Where(x => x != null); }
+        //    }
+        //}
 
 
         //public List<AccessibleJvm> EnumJvms()
@@ -73,7 +67,7 @@ namespace G1ANT.Addon.JavaUI
             //dynamic accessBridgeFactory = Activator.CreateInstance(accessBridgeFactoryType);
             //dynamic accessBridge = accessBridgeFactory.GetAccessBridge();
             //accessBridge.Functions.Windows_run();
-            new AccessBridgeFactory().GetAccessBridge().Functions.Windows_run();
+            //new AccessBridgeFactory().GetAccessBridge().Functions.Windows_run();
             //nodeService = Activator.CreateInstance(nodeServiceType, new AccessBridgeFactory().GetAccessBridge()); //(object)accessBridge);
             nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
         }
@@ -81,8 +75,8 @@ namespace G1ANT.Addon.JavaUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var jvms = nodeService.GetJvms();
-        }
+            //var jvms = nodeService.GetJvms();
+
             //pathService = new PathService(new PathParser.PathParser(), new NodeService(new AccessBridgeFactory().GetAccessBridge()));
             //var el = pathService.GetNode("/*/type=frame/type=root pane[0]/type=layered pane/type=panel/type=panel/type=panel/type=menu bar/Help");
             //el.DoAction("click");
@@ -154,6 +148,7 @@ namespace G1ANT.Addon.JavaUI
 
             //_accessBridge.Functions.DoAccessibleActions(_jvm.JvmId, w.AccessibleContextHandle, ref action, out int failure);
 
-        //}
+            //}
+        }
     }
 }

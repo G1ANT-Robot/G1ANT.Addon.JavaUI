@@ -5,15 +5,15 @@ using System;
 namespace G1ANT.Addon.JavaUI
 {
     [Structure(Name = "jpath", Default = "", AutoCreate = false)]
-    public class JPathStructure : StructureTyped<string>
+    public class JavaPathStructure : StructureTyped<string>
     {
-        public JPathStructure(string value, string format = "", AbstractScripter scripter = null) :
+        public JavaPathStructure(string value, string format = "", AbstractScripter scripter = null) :
             base(value, format, scripter)
         {
             Init();
         }
 
-        public JPathStructure(object value, string format = null, AbstractScripter scripter = null)
+        public JavaPathStructure(object value, string format = null, AbstractScripter scripter = null)
             : base(value, format, scripter)
         {
             Init();
@@ -26,7 +26,7 @@ namespace G1ANT.Addon.JavaUI
         public override Structure Get(string index = "")
         {
             if (string.IsNullOrWhiteSpace(index))
-                return new JPathStructure(Value, Format);
+                return new JavaPathStructure(Value, Format);
             throw new ArgumentException($"Unknown index '{index}'");
         }
 
