@@ -12,10 +12,9 @@ namespace G1ANT.Addon.JavaUI
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
-        /// <summary>type</summary>
         public string Role { get; private set; }
-        public List<string> Actions { get; private set; }
-        public List<string> States { get; private set; }
+        public IReadOnlyCollection<string> Actions { get; private set; } = new List<string>();
+        public IReadOnlyCollection<string> States { get; private set; } = new List<string>();
         public Rectangle Bounds { get; private set; }
         public int ChildrenCount { get; private set; }
         public int Height { get; private set; }
@@ -24,16 +23,18 @@ namespace G1ANT.Addon.JavaUI
         public int X { get; private set; }
         public int Y { get; private set; }
         public AccessibleNode Node { get; private set; }
+        public string Path => ToPath();
+
 
         public NodeModel(AccessibleNode node)
         {
-            this.Node = node ?? throw new ArgumentNullException(nameof(node));
+            Node = node ?? throw new ArgumentNullException(nameof(node));
             JvmId = node.JvmId;
 
             switch (node)
             {
                 case AccessibleJvm accessibleJvm:
-                    Id = (int)accessibleJvm.JvmId;
+                    Id = accessibleJvm.JvmId;
                     Name = accessibleJvm.GetTitle();
                     break;
                 case AccessibleWindow accessibleWindow:
