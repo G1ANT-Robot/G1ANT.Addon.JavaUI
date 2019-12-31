@@ -73,6 +73,7 @@
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />
+    <Compile Include="Commands\JavaUISetFocusCommand.cs" />
     <Compile Include="Commands\JavaUISetTextCommand.cs" />
     <Compile Include="Commands\JavaUIGetTextCommand.cs" />
     <Compile Include="Commands\JavaUIDoActionCommand.cs" />

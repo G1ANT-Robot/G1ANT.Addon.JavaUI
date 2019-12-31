@@ -54,6 +54,12 @@ namespace G1ANT.Addon.JavaUI
                 throw new Exception("SetTextContents failed");
         }
 
+        public void RequestFocus()
+        {
+            if (!Node.AccessBridge.Functions.RequestFocus(JvmId, ((AccessibleContextNode)Node).AccessibleContextHandle))
+                throw new Exception("RequestFocus failed");
+        }
+
         private AccessibleContextInfo GetInfo(AccessibleNode node)
         {
             if (node is AccessibleWindow accessibleWindow)
