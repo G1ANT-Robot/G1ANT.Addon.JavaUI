@@ -70,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessBridgeFactory.cs" />
-    <Compile Include="Api\UIElement.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Commands\JavaUIGetTextCommand.cs" />
     <Compile Include="Commands\JavaUIDoActionCommand.cs" />
     <Compile Include="Commands\JavaUIClickCommand.cs" />
+    <Compile Include="Commands\WaitForJavaUICommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
