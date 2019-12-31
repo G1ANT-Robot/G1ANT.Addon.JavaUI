@@ -77,6 +77,7 @@
     <Compile Include="Commands\JavaUIGetTextCommand.cs" />
     <Compile Include="Commands\JavaUIDoActionCommand.cs" />
     <Compile Include="Commands\JavaUIClickCommand.cs" />
+    <Compile Include="Commands\JavaUIGetRectangleCommand.cs" />
     <Compile Include="Commands\WaitForJavaUICommand.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
