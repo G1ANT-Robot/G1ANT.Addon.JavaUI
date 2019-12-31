@@ -10,7 +10,7 @@ namespace G1ANT.Addon.UI
         new public class Arguments : CommandArguments
         {
             [Argument(Required = true, Tooltip = "Desktop application UI element to be clicked")]
-            public JPathStructure Path { get; set; }
+            public JavaPathStructure Path { get; set; }
         }
 
         public JavaUIClickCommand(AbstractScripter scripter) : base(scripter)

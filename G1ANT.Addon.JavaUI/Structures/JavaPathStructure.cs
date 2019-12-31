@@ -4,7 +4,7 @@ using System;
 
 namespace G1ANT.Addon.JavaUI
 {
-    [Structure(Name = "jpath", Default = "", AutoCreate = false)]
+    [Structure(Name = "javapath", Default = "", AutoCreate = false)]
     public class JavaPathStructure : StructureTyped<string>
     {
         public JavaPathStructure(string value, string format = "", AbstractScripter scripter = null) :

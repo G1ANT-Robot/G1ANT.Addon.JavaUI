@@ -1,18 +1,13 @@
 ﻿using G1ANT.Language;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace G1ANT.Addon.JavaUI
 {
-    [Structure(Name = "nodestructure", Default = "", AutoCreate = false)]
+    [Structure(Name = "javanode", Default = "", AutoCreate = false)]
     public class JavaNodeStructure : StructureTyped<NodeModel>
     {
-        public JavaNodeStructure(NodeModel value, string format = "", AbstractScripter scripter = null)
-            : base(value, format, scripter)
-        { }
-
         public JavaNodeStructure(object value, string format = null, AbstractScripter scripter = null)
             : base(value, format, scripter)
         { }
@@ -86,7 +81,7 @@ namespace G1ANT.Addon.JavaUI
         public override string ToString()
         {
             var nodeProperties = Value.GetType().GetProperties()
-                .Where(p => p.Name != nameof(NodeModel.Node) && p.Name != "Actions")
+                .Where(p => p.Name != nameof(NodeModel.Node))
                 .Select(p => new { Name = p.Name, Value = p.GetValue(Value) })
                 .ToDictionary(v => v.Name.ToLower(), v => v.Value is IEnumerable<string> ? string.Join(", ", v.Value as IEnumerable<string>) : v.Value);
 

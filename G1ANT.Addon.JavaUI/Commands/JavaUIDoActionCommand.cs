@@ -13,7 +13,7 @@ namespace G1ANT.Addon.UI
         public class Arguments : CommandArguments
         {
             [Argument(Required = true, Tooltip = "Desktop Java application UI element to be clicked")]
-            public JPathStructure Path { get; set; }
+            public JavaPathStructure Path { get; set; }
 
             [Argument(Required = true, Tooltip = "Desktop Java application UI element to be clicked")]
             public TextStructure Action { get; set; }
