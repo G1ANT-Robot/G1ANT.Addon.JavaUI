@@ -1,6 +1,6 @@
 ﻿using WindowsAccessBridgeInterop;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Services
 {
     public class AccessBridgeFactory
     {
@@ -8,7 +8,8 @@ namespace G1ANT.Addon.JavaUI
 
         static AccessBridgeFactory()
         {
-            accessBridge.Functions.Windows_run(); // it's a shit because it needs some (!) time to run in the background in order to collect all java vms/windows
+            // needs some (!) time to run in the background in order to collect all java vms/windows + each instance has to be initialized separately
+            accessBridge.Functions.Windows_run();
         }
 
         public AccessBridge GetAccessBridge() => accessBridge;

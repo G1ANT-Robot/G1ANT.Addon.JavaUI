@@ -69,7 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessBridgeFactory.cs" />
+    <Compile Include="Services\AccessBridgeFactory.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />
@@ -109,7 +109,7 @@
     </Compile>
     <Compile Include="Structures\JavaNodeStructure.cs" />
     <Compile Include="Structures\JavaPathStructure.cs" />
-    <Compile Include="XPathParser\IXpathBuilder.cs" />
+    <Compile Include="XPathParser\IXPathBuilder.cs" />
     <Compile Include="XPathParser\XPathAxis.cs" />
     <Compile Include="XPathParser\XPathOperator.cs" />
     <Compile Include="XPathParser\XPathParser.cs" />
