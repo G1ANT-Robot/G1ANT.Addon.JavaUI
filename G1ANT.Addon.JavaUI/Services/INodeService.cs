@@ -12,5 +12,11 @@ namespace G1ANT.Addon.JavaUI.Services
         IReadOnlyCollection<NodeModel> GetChildNodes(NodeModel node);
 
         AccessibleContextInfo GetNodeInfo(AccessibleNode node);
+
+        void SetTextContents(AccessibleNode node, string text);
+        void RequestFocus(AccessibleNode node);
+
+        IEnumerable<string> GetActions(AccessibleContextNode node);
+        void DoAction(AccessibleNode node, string action);
     }
 }

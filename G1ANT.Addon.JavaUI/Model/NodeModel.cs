@@ -1,4 +1,5 @@
-﻿using System;
+﻿using G1ANT.Addon.JavaUI.Services;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -22,6 +23,9 @@ namespace G1ANT.Addon.JavaUI
         public int Width { get; private set; }
         public int X { get; private set; }
         public int Y { get; private set; }
+
+        private INodeService nodeService;
+
         public AccessibleNode Node { get; private set; }
         public string Path => ToPath();
 
@@ -29,8 +33,10 @@ namespace G1ANT.Addon.JavaUI
         public NodeModel(AccessibleNode node)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
-            JvmId = node.JvmId;
 
+            nodeService = new NodeService(node.AccessBridge);
+
+            JvmId = node.JvmId;
             switch (node)
             {
                 case AccessibleJvm accessibleJvm:
@@ -50,14 +56,12 @@ namespace G1ANT.Addon.JavaUI
 
         public void SetTextContents(string text)
         {
-            if (!Node.AccessBridge.Functions.SetTextContents(JvmId, ((AccessibleContextNode)Node).AccessibleContextHandle, text))
-                throw new Exception("SetTextContents failed");
+            nodeService.SetTextContents(Node, text);
         }
 
         public void RequestFocus()
         {
-            if (!Node.AccessBridge.Functions.RequestFocus(JvmId, ((AccessibleContextNode)Node).AccessibleContextHandle))
-                throw new Exception("RequestFocus failed");
+            nodeService.RequestFocus(Node);
         }
 
         private AccessibleContextInfo GetInfo(AccessibleNode node)
@@ -87,16 +91,7 @@ namespace G1ANT.Addon.JavaUI
 
         private void FillActions(AccessibleContextNode node)
         {
-            if (node.AccessBridge.Functions.GetAccessibleActions(node.JvmId, node.AccessibleContextHandle, out AccessibleActions accessibleActions))
-            {
-                if (accessibleActions.actionsCount > 0)
-                {
-                    Actions = accessibleActions.actionInfo
-                        .Where(a => a.name != "")
-                        .Select(a => a.name)
-                        .ToList();
-                }
-            }
+            Actions = nodeService.GetActions(node).ToList();
         }
 
         public void DoAction(string action)
@@ -104,28 +99,7 @@ namespace G1ANT.Addon.JavaUI
             if (!Actions.Contains(action))
                 throw new ArgumentOutOfRangeException($"Action {action} not found, available actions: {string.Join(", ", Actions)}");
 
-            var actionsToDo = CreateActionsToDo(action);
-
-            var result = Node.AccessBridge.Functions.DoAccessibleActions(
-                Node.JvmId,
-                ((AccessibleContextNode)Node).AccessibleContextHandle,
-                ref actionsToDo,
-                out int failedActionIndex
-            );
-
-            if (!result)
-                throw new Exception("DoAccessibleActions failed");
-        }
-
-        private static AccessibleActionsToDo CreateActionsToDo(string action)
-        {
-            var actionsToDo = new AccessibleActionsToDo()
-            {
-                actions = new AccessibleActionInfo[32],
-                actionsCount = 1
-            };
-            actionsToDo.actions[0] = new AccessibleActionInfo() { name = action };
-            return actionsToDo;
+            nodeService.DoAction(Node, action);
         }
 
         private string GetSpecificElementSelector()
