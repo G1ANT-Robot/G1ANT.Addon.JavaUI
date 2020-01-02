@@ -27,7 +27,6 @@ namespace G1ANT.Addon.JavaUI
         private INodeService nodeService;
 
         public AccessibleNode Node { get; private set; }
-        public string Path => ToPath();
 
 
         public NodeModel(AccessibleNode node)

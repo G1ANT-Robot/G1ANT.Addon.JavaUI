@@ -1,6 +1,7 @@
 ﻿using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -65,25 +66,42 @@ namespace G1ANT.Addon.JavaUI.Panels
 
         private TreeNode CreateTreeNode(NodeModel nodeModel)
         {
-            var name = nodeModel.Role;
-
-            if (nodeModel.Id > 0)
-                name += $" {nodeModel.Id}";
-            if (!string.IsNullOrEmpty(nodeModel.Name))
+            var treeNode = new TreeNode(GetNameForNode(nodeModel))
             {
-                name += ": ";
-                name += $"\"{nodeModel.Name}\"";
-            }
-
-            var treeNode = new TreeNode(name)
-            {
-                Tag = nodeModel
+                Tag = nodeModel,
+                ToolTipText = GetTooltip(nodeModel)
             };
 
             if (nodeModel.ChildrenCount > 0)
                 treeNode.Nodes.Add("");
 
             return treeNode;
+        }
+
+        private string GetTooltip(NodeModel nodeModel)
+        {
+            var nodeProperties = nodeModel.GetType().GetProperties()
+                .Where(p => p.Name != nameof(NodeModel.Node))
+                .Select(p => new { Name = p.Name, Value = p.GetValue(nodeModel) })
+                .Select(v => new { Name = v.Name, Value = v.Value is IEnumerable<string> ? string.Join(", ", v.Value as IEnumerable<string>) : v.Value });
+
+            return string.Join("\r\n", nodeProperties.Where(np => !string.IsNullOrEmpty(np.Value?.ToString())).Select(np => $"{np.Name}: {np.Value}"));
+        }
+
+        private static string GetNameForNode(NodeModel nodeModel)
+        {
+            var name = nodeModel.Role;
+
+            if (nodeModel.Id > 0)
+                name += $" {nodeModel.Id}";
+
+            if (!string.IsNullOrEmpty(nodeModel.Name))
+            {
+                name += ": ";
+                name += $"\"{nodeModel.Name}\"";
+            }
+
+            return name;
         }
 
         private void controlsTree_AfterCollapse(object sender, TreeViewEventArgs e)

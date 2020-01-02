@@ -55,8 +55,6 @@ namespace G1ANT.Addon.JavaUI
                     return new IntegerStructure(Value.X);
                 case "y":
                     return new IntegerStructure(Value.Y);
-                case "path":
-                    return new TextStructure(Value.Path);
                 default:
                     throw new ArgumentException($"Unknown index {index}");
             }
