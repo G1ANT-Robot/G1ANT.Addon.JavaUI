@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using G1ANT.Addon.JavaUI.Models;
+using System.Collections.Generic;
 
 namespace G1ANT.Addon.JavaUI.Services
 {

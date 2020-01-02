@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using WindowsAccessBridgeInterop;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Models
 {
     public class NodeModel : IDisposable
     {
