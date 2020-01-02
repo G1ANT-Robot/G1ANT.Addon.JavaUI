@@ -87,7 +87,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="JavaUIAddon.cs" />
-    <Compile Include="Model\NodeModel.cs" />
+    <Compile Include="Models\NodeModel.cs" />
     <Compile Include="Panels\JavaUIControlsTreePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
