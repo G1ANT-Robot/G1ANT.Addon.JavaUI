@@ -26,12 +26,7 @@ namespace G1ANT.Addon.UI
 
         public WaitForJavaUICommand(AbstractScripter scripter) : base(scripter)
         {
-            pathService = new PathService(
-                new PathParser(),
-                new NodeService(
-                    new AccessBridgeFactory().GetAccessBridge()
-                )
-            );
+            pathService = new PathService();
         }
 
         public void Execute(Arguments arguments)
@@ -43,8 +38,8 @@ namespace G1ANT.Addon.UI
             {
                 try
                 {
-                    var nodes = pathService.GetMultipleNodes(arguments.Path.Value);
-                    if (nodes.Any())
+                    var nodes = pathService.GetByXPath(arguments.Path.Value);
+                    if (nodes != null)
                         return;
                 }
                 catch { }

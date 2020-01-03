@@ -21,17 +21,12 @@ namespace G1ANT.Addon.UI
 
         public JavaUIDoActionCommand(AbstractScripter scripter) : base(scripter)
         {
-            pathService = new PathService(
-                new PathParser(),
-                new NodeService(
-                    new AccessBridgeFactory().GetAccessBridge()
-                )
-            );
+            pathService = new PathService();
         }
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetNode(arguments.Path.Value);
+            var node = pathService.GetByXPath(arguments.Path.Value);
             node.DoAction(arguments.Action.Value);
         }
     }

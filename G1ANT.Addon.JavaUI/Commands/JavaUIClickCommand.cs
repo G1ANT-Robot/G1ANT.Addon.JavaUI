@@ -18,7 +18,7 @@ namespace G1ANT.Addon.UI
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetNode(arguments.Path.Value);
+            var node = pathService.GetByXPath(arguments.Path.Value);
             node.DoAction("click");
         }
     }

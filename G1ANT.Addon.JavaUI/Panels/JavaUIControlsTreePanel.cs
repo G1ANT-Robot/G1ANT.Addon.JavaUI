@@ -19,7 +19,7 @@ namespace G1ANT.Addon.JavaUI.Panels
         public JavaUIControlsTreePanel()
         {
             nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
-            pathService = new PathService(new PathParser(), nodeService);
+            pathService = new PathService();
 
             InitializeComponent();
         }

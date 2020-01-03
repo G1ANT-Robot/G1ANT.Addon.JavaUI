@@ -9,7 +9,6 @@ namespace G1ANT.Addon.UI
         Tooltip = "This command applies focus to a specified UI element of a desktop Java application window")]
     public class JavaUISetFocusCommand : Command
     {
-        private AccessBridge accessBridge;
         private IPathService pathService;
 
         public class Arguments : CommandArguments
@@ -20,16 +19,12 @@ namespace G1ANT.Addon.UI
 
         public JavaUISetFocusCommand(AbstractScripter scripter) : base(scripter)
         {
-            accessBridge = new AccessBridgeFactory().GetAccessBridge();
-            pathService = new PathService(
-                new PathParser(),
-                new NodeService(accessBridge)
-            );
+            pathService = new PathService();
         }
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetNode(arguments.Path.Value);
+            var node = pathService.GetByXPath(arguments.Path.Value);
             node.RequestFocus();
         }
     }
