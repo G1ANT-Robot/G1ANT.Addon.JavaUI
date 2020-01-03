@@ -1,6 +1,6 @@
 ﻿using CodePlex.XPathParser;
+using G1ANT.Addon.JavaUI.Enums;
 using G1ANT.Addon.JavaUI.Models;
-using G1ANT.Addon.JavaUI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using FindElementFunc = System.Func<
     G1ANT.Addon.JavaUI.Models.NodeModel>;
 using GetElementFunc = System.Func<G1ANT.Addon.JavaUI.Models.NodeModel, G1ANT.Addon.JavaUI.Models.NodeModel>;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Services
 {
     public class XPathUIElementBuilder : IXPathBuilder<object>
     {

@@ -1,4 +1,4 @@
-﻿namespace G1ANT.Addon.JavaUI
+﻿namespace G1ANT.Addon.JavaUI.Enums
 {
     public enum NodeProperty
     {
