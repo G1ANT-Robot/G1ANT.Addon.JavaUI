@@ -69,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AccessibleRootNode.cs" />
+    <Compile Include="Models\RootNodeModel.cs" />
     <Compile Include="Services\AccessBridgeFactory.cs" />
     <Compile Include="Api\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />

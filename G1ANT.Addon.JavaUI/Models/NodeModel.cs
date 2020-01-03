@@ -63,6 +63,17 @@ namespace G1ANT.Addon.JavaUI.Models
             nodeService.RequestFocus(Node);
         }
 
+        public NodeModel GetParent()
+        {
+            var parent = Node.GetParent();
+            return parent != null ? new NodeModel(parent) : null;
+        }
+
+        public IReadOnlyCollection<NodeModel> GetChildren()
+        {
+            return nodeService.GetChildNodes(this);
+        }
+
         private AccessibleContextInfo GetInfo(AccessibleNode node)
         {
             if (node is AccessibleWindow accessibleWindow)
@@ -103,20 +114,24 @@ namespace G1ANT.Addon.JavaUI.Models
 
         private string GetSpecificElementSelector()
         {
+            if (Node is AccessibleJvm)
+                return $"jvmid='{JvmId}'";
             if (!string.IsNullOrEmpty(Name))
-                return Name;
+                return $"name='{Name}'";
             if (!string.IsNullOrEmpty(Role))
-                return $"role={Role}";
+                return $"role='{Role}'";
             if (Id != 0)
-                return $"id={Id}";
+                return $"id='{Id}'";
 
-            return $"[{IndexInParent}]";
+            return $"position()={IndexInParent}";
         }
 
-        public string ToPath()
+        public string ToXPath()
         {
-            return "/" + (Node is AccessibleJvm ? JvmId.ToString() : GetSpecificElementSelector());
+            //return "/" + (Node is AccessibleJvm ? JvmId.ToString() : GetSpecificElementSelector());
+            return $"/ui[@{GetSpecificElementSelector()}]";
         }
+
 
         public void Dispose()
         {

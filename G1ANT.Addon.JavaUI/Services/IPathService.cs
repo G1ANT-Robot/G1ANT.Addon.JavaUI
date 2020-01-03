@@ -7,7 +7,8 @@ namespace G1ANT.Addon.JavaUI.Services
     {
         List<NodeModel> GetMultipleNodes(string path);
         NodeModel GetNode(string path);
+        NodeModel GetByXPath(string xpath);
 
-        string GetPathTo(NodeModel node);
+        string GetXPathTo(NodeModel node);
     }
 }

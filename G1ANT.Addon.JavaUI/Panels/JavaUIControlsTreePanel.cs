@@ -167,7 +167,7 @@ namespace G1ANT.Addon.JavaUI.Panels
             if (controlsTree.SelectedNode != null)
             {
                 var nodeModel = (NodeModel)controlsTree.SelectedNode.Tag;
-                var path = pathService.GetPathTo(nodeModel);
+                var path = pathService.GetXPathTo(nodeModel);
 
                 if (MainForm == null) MessageBox.Show(path); else
                 MainForm.InsertTextIntoCurrentEditor($"{SpecialChars.Text}{path}{SpecialChars.Text}");

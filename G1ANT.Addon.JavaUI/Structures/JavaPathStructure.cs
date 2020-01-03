@@ -53,7 +53,7 @@ namespace G1ANT.Addon.JavaUI
             if (value.StartsWith(SpecialChars.Text) && value.EndsWith(SpecialChars.Text))
                 value = value.Substring(1).Substring(0, value.Length - 2);
 
-            new PathParser().Parse(value); // validation
+            //new PathParser().Parse(value); // validation
 
             return value;
         }
