@@ -11,6 +11,7 @@ using FindElementFunc = System.Func<
     System.Func<G1ANT.Addon.JavaUI.Models.NodeModel, int, bool>,
     G1ANT.Addon.JavaUI.Models.NodeModel>;
 using GetElementFunc = System.Func<G1ANT.Addon.JavaUI.Models.NodeModel, G1ANT.Addon.JavaUI.Models.NodeModel>;
+using GetIndexFunc = System.Func<int, int>;
 
 namespace G1ANT.Addon.JavaUI.Services
 {
@@ -121,10 +122,14 @@ namespace G1ANT.Addon.JavaUI.Services
         {
             if (op == XPathOperator.Eq)
             {
-                if (left is NodeProperty property)
+                switch (left)
                 {
-                    return new CompareFunc((node, index) => GetPropertyValue(node, property)?.Equals(right) == true);
+                    case NodeProperty property:
+                        return new CompareFunc((node, index) => GetPropertyValue(node, property)?.Equals(right) == true);
+                    case GetIndexFunc getIndexFunc:
+                        return new CompareFunc((node, index) => getIndexFunc(index).Equals(right));
                 }
+
             }
             throw new NotSupportedException($"Operator {op.ToString()} is not supported.");
         }
@@ -222,13 +227,9 @@ namespace G1ANT.Addon.JavaUI.Services
             else throw new ArgumentException("contains() expects two arguments: property name and desired value");
         }
 
-        private CompareFunc Position(IList<object> args)
+        private GetIndexFunc Position(IList<object> args)
         {
-            if (args.Count == 1 && args[0] is int childIndex)
-            {
-                return (elem, index) => index == childIndex;
-            }
-            else throw new ArgumentException("position() expects one argument: 0-based index of child");
+            return index => index;
         }
     }
 }
