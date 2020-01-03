@@ -6,11 +6,11 @@ namespace G1ANT.Addon.JavaUI.Services
 {
     public interface INodeService
     {
-        IReadOnlyCollection<AccessibleJvm> GetJvms();
-        IReadOnlyCollection<NodeModel> GetJvmNodes();
+        IReadOnlyList<AccessibleJvm> GetJvms();
+        IReadOnlyList<NodeModel> GetJvmNodes();
 
-        IReadOnlyCollection<AccessibleNode> GetChildren(AccessibleNode node);
-        IReadOnlyCollection<NodeModel> GetChildNodes(NodeModel node);
+        IReadOnlyList<AccessibleNode> GetChildren(AccessibleNode node);
+        IReadOnlyList<NodeModel> GetChildNodes(NodeModel node);
 
         AccessibleContextInfo GetNodeInfo(AccessibleNode node);
 

@@ -15,26 +15,26 @@ namespace G1ANT.Addon.JavaUI.Services
             this.accessBridge = accessBridge;
         }
 
-        public IReadOnlyCollection<AccessibleJvm> GetJvms()
+        public IReadOnlyList<AccessibleJvm> GetJvms()
         {
             return accessBridge.EnumJvms(hwnd => accessBridge.CreateAccessibleWindow(hwnd));
         }
 
-        public IReadOnlyCollection<NodeModel> GetJvmNodes()
+        public IReadOnlyList<NodeModel> GetJvmNodes()
         {
             return GetJvms()
                 .Select(jvm => new NodeModel(jvm))
                 .ToList();
         }
 
-        public IReadOnlyCollection<NodeModel> GetChildNodes(NodeModel node)
+        public IReadOnlyList<NodeModel> GetChildNodes(NodeModel node)
         {
             return GetChildren(node.Node)
                 .Select(ch => new NodeModel(ch))
                 .ToList();
         }
 
-        public IReadOnlyCollection<AccessibleNode> GetChildren(AccessibleNode node)
+        public IReadOnlyList<AccessibleNode> GetChildren(AccessibleNode node)
         {
             return node.GetChildren().ToList();
         }

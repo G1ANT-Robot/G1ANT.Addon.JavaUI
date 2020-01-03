@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.XPath;
-using WindowsAccessBridgeInterop;
 using CompareFunc = System.Func<G1ANT.Addon.JavaUI.Models.NodeModel, int, bool>;
 using FindElementFunc = System.Func<
     G1ANT.Addon.JavaUI.Models.NodeModel,
@@ -15,15 +14,6 @@ using GetElementFunc = System.Func<G1ANT.Addon.JavaUI.Models.NodeModel, G1ANT.Ad
 
 namespace G1ANT.Addon.JavaUI
 {
-
-    public enum NodeProperty
-    {
-        JvmId,
-        Id,
-        Name,
-        Role
-    }
-
     public class XPathUIElementBuilder : IXPathBuilder<object>
     {
         private NodeService nodeService;
@@ -32,7 +22,6 @@ namespace G1ANT.Addon.JavaUI
         {
             nodeService = new NodeService(new AccessBridgeFactory().GetAccessBridge());
         }
-
 
         protected NodeModel FindDescendant(NodeModel node, CompareFunc compare)
         {
@@ -92,14 +81,6 @@ namespace G1ANT.Addon.JavaUI
             return FindDescendant(node, compare);
         }
 
-        //public NodeModel Root { get; } = NodeModel.RootElement;
-        //public XPathUIElementBuilder(NodeModel root = null)
-        //{
-        //ControlType.Button.GetType();
-        //if (root != null)
-        //    Root = root;
-        //}
-
         public void StartBuild()
         {
         }
@@ -142,34 +123,7 @@ namespace G1ANT.Addon.JavaUI
             {
                 if (left is NodeProperty property)
                 {
-                    return new CompareFunc((node, index) =>
-                     {
-                         var propValue = GetPropertyValue(node, property);
-                         return propValue?.Equals(right) == true;
-                     });
-                }
-                else if (left is NodeModel en)
-                {
-                    //if (UiNodeModel.ProgrammaticName == en)
-                    //{
-                    //    return new CompareFunc((elem, index) =>
-                    //    {
-                    //        string propValue = elem.Current.ControlType?.ProgrammaticName.Replace("ControlType.", "");
-                    //        if (propValue != null)
-                    //            return propValue.Equals(right);
-                    //        return false;
-                    //    });
-                    //}
-                    //if (UiNodeModel.Id == en)
-                    //{
-                    //    return new CompareFunc((elem, index) =>
-                    //    {
-                    //        int? propValue = elem.Current.ControlType?.Id;
-                    //        if (propValue.HasValue)
-                    //            return propValue.ToString().Equals(right);
-                    //        return false;
-                    //    });
-                    //}
+                    return new CompareFunc((node, index) => GetPropertyValue(node, property)?.Equals(right) == true);
                 }
             }
             throw new NotSupportedException($"Operator {op.ToString()} is not supported.");
@@ -178,7 +132,7 @@ namespace G1ANT.Addon.JavaUI
         public object Axis(XPathAxis xpathAxis, XPathNodeType nodeType, string prefix, string name)
         {
             if (xpathAxis == XPathAxis.Root)
-                return new RootNodeModel(); // nodeService.GetJvmNodes(); // ????
+                return new RootNodeModel();
 
             if (nodeType == XPathNodeType.Element && name != "ui")
                 throw new NotSupportedException($"{name} element is not supported.");
@@ -189,24 +143,23 @@ namespace G1ANT.Addon.JavaUI
                 case XPathAxis.DescendantOrSelf: return (FindElementFunc)FindDescendantOrSelf;
                 case XPathAxis.FollowingSibling: return (FindElementFunc)FindFollowingSibling;
                 case XPathAxis.Child: return (FindElementFunc)FindChild;
-                case XPathAxis.Attribute:
-                    {
-                        switch (name.ToLower())
-                        {
-                            case "id":
-                                return NodeProperty.Id;
-                            case "jvmid":
-                                return NodeProperty.JvmId;
-                            case "name":
-                                return NodeProperty.Name;
-                            case "role":
-                                return NodeProperty.Role;
-                            default:
-                                throw new NotSupportedException($"Attribute {name} is not supported.");
-                        }
-                    }
+                case XPathAxis.Attribute: return GetNodePropertyByName(name);
             }
+
             return null;
+        }
+
+        private static object GetNodePropertyByName(string name)
+        {
+            switch (name.ToLower())
+            {
+                case "id": return NodeProperty.Id;
+                case "jvmid": return NodeProperty.JvmId;
+                case "name": return NodeProperty.Name;
+                case "role": return NodeProperty.Role;
+                default:
+                    throw new NotSupportedException($"Attribute {name} is not supported.");
+            }
         }
 
         public object JoinStep(object left, object right)
@@ -252,24 +205,30 @@ namespace G1ANT.Addon.JavaUI
 
         public object Function(string prefix, string name, IList<object> args)
         {
-            if (name.ToLower() == "contains" && args.Count == 2)
+            switch (name.ToLower())
             {
-                if (args[0] is NodeProperty property && args[1] is string text)
-                {
-                    CompareFunc func = (elem, index) => GetPropertyValue(elem, property) is string str && str.Contains(text);
-                    return func;
-                }
+                case "contains": return Contains(args);
+                case "position": return Position(args);
+                default: throw new NotSupportedException($"Function {name} is not supported.");
             }
-            else if (name.ToLower() == "position" && args.Count == 1)
-            {
-                if (args[0] is int childIndex)
-                {
-                    CompareFunc func = (elem, index) => elem.IndexInParent == childIndex;
-                    return func;
-                }
-            }
+        }
 
-            throw new NotSupportedException($"Function {name} is not supported.");
+        private CompareFunc Contains(IList<object> args)
+        {
+            if (args.Count == 2 && args[0] is NodeProperty property && args[1] is string text)
+            {
+                return (elem, index) => GetPropertyValue(elem, property).Contains(text);
+            }
+            else throw new ArgumentException("contains() expects two arguments: property name and desired value");
+        }
+
+        private CompareFunc Position(IList<object> args)
+        {
+            if (args.Count == 1 && args[0] is int childIndex)
+            {
+                return (elem, index) => index == childIndex;
+            }
+            else throw new ArgumentException("position() expects one argument: 0-based index of child");
         }
     }
 }

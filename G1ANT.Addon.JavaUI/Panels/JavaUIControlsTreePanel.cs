@@ -115,47 +115,16 @@ namespace G1ANT.Addon.JavaUI.Panels
             return string.IsNullOrEmpty(name) ? "" : name.Replace("ControlType.", "");
         }
 
-        //private string GetTreeNodeName(AutomationElement element)
-        //{
-        //    if (element == null)
-        //        return "";
-        //    string id = "";
-        //    if (string.IsNullOrWhiteSpace(element.Current.AutomationId) == false)
-        //        id = $" #{element.Current.AutomationId}";
-        //    return $"{CutControlType(element.Current.ControlType.ProgrammaticName)}{id} \"{element.Current.Name}\"";
-        //}
-
-        //private string GetTreeNodeTooltip(AutomationElement element, int index)
-        //{
-        //    if (element == null)
-        //        return null;
-        //    StringBuilder result = new StringBuilder();
-
-        //    if (!string.IsNullOrWhiteSpace(element.Current.AutomationId))
-        //        result.AppendLine($"id: {element.Current.AutomationId}");
-        //    if (element.Current.ControlType != null)
-        //    {
-        //        result.AppendLine($"type: {CutControlType(element.Current.ControlType.ProgrammaticName)}");
-        //        result.AppendLine($"typeid: {element.Current.ControlType.Id}");
-        //    }
-        //    if (!string.IsNullOrWhiteSpace(element.Current.ClassName))
-        //        result.AppendLine($"class: {element.Current.ClassName}");
-        //    if (!string.IsNullOrWhiteSpace(element.Current.Name))
-        //        result.AppendLine($"name: {element.Current.Name}");
-        //    result.AppendLine($"control index: {index}");
-        //    return result.ToString();
-        //}
-
         private void controlsTree_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
             var currentTreeNode = e.Node;
             if (currentTreeNode.Parent == null)
-                return; // don't clear jvms and their windows as they are already displayed
+                return; // don't clear jvms and their windows as they are already rendered
 
             var node = (NodeModel)currentTreeNode.Tag;
             currentTreeNode.Nodes.Clear();
 
-            var children = nodeService.GetChildNodes(node);
+            var children = node.GetChildren();
             foreach (var child in children)
             {
                 currentTreeNode.Nodes.Add(CreateTreeNode(child));

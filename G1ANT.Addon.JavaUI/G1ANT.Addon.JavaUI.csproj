@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\NodeProperty.cs" />
     <Compile Include="Models\AccessibleRootNode.cs" />
     <Compile Include="Models\RootNodeModel.cs" />
     <Compile Include="Services\AccessBridgeFactory.cs" />

@@ -1,27 +1,25 @@
 ﻿using G1ANT.Addon.JavaUI.Services;
-using System.Collections.Generic;
-using System.Linq;
 using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Models
 {
+    /// <summary>
+    /// AccessibleNode implementation required to ease XPath implementation (assumpts there's single root)
+    /// </summary>
     public class AccessibleRootNode : AccessibleNode
     {
         private readonly INodeService nodeService;
-        private readonly IList<AccessibleJvm> children;
 
         public AccessibleRootNode(INodeService nodeService)
             : base(null)
         {
             this.nodeService = nodeService;
-            children = nodeService.GetJvms().ToList();
         }
 
         override public int JvmId => 0;
         override public AccessibleNode GetParent() => null;
-        override protected int GetChildrenCount() => children.Count;
-        override protected AccessibleNode GetChildAt(int i) => children[i];
-        override public string GetTitle() => null;
+        override protected int GetChildrenCount() => nodeService.GetJvms().Count;
+        override protected AccessibleNode GetChildAt(int i) => nodeService.GetJvms()[i];
+        override public string GetTitle() => "Parent of JVMS";
     }
 }
-
