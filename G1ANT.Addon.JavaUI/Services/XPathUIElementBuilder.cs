@@ -126,12 +126,31 @@ namespace G1ANT.Addon.JavaUI.Services
                 {
                     case NodeProperty property:
                         return new CompareFunc((node, index) => GetPropertyValue(node, property)?.Equals(right) == true);
-                    case GetIndexFunc getIndexFunc:
-                        return new CompareFunc((node, index) => getIndexFunc(index).Equals(right));
                 }
-
             }
+
+            switch (left)
+            {
+                case GetIndexFunc getIndexFunc:
+                    return new CompareFunc((node, index) => HandleIntOperator(op, getIndexFunc(index), (int)right));
+            }
+
+
             throw new NotSupportedException($"Operator {op.ToString()} is not supported.");
+        }
+
+        private static bool HandleIntOperator(XPathOperator op, int left, int right)
+        {
+            switch (op)
+            {
+                case XPathOperator.Eq: return left == right;
+                case XPathOperator.Gt: return left > right;
+                case XPathOperator.Ge: return left >= right;
+                case XPathOperator.Le: return left <= right;
+                case XPathOperator.Lt: return left < right;
+                default:
+                    throw new ArgumentOutOfRangeException($"Unsupported operator {op}");
+            }
         }
 
         public object Axis(XPathAxis xpathAxis, XPathNodeType nodeType, string prefix, string name)
