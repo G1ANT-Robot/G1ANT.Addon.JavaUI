@@ -69,11 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\NodeProperty.cs" />
+    <Compile Include="Enums\NodeProperty.cs" />
     <Compile Include="Models\AccessibleRootNode.cs" />
     <Compile Include="Models\RootNodeModel.cs" />
     <Compile Include="Services\AccessBridgeFactory.cs" />
-    <Compile Include="Api\XPathUIElementBuilder.cs" />
+    <Compile Include="Services\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />
     <Compile Include="Commands\JavaUISetFocusCommand.cs" />
