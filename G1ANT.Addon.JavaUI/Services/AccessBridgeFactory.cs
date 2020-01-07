@@ -16,8 +16,9 @@ namespace G1ANT.Addon.JavaUI.Services
 
         static AccessBridgeFactory()
         {
-            new AccessBridgeFactory(new FileService(), new AssemblyService(), new SettingsService()).ExtractResources();
-            accessBridge = new AccessBridge(AbstractSettingsContainer.Instance.UserDocsAddonFolder.FullName);
+            var settingService = new SettingsService();
+            new AccessBridgeFactory(new FileService(), new AssemblyService(), settingService).ExtractResources();
+            accessBridge = new AccessBridge(settingService.GetUserDocsAddonFolder());
 
             // needs some (!) time to run in the background in order to collect all java vms/windows + each instance has to be initialized separately
             accessBridge.Functions.Windows_run();
