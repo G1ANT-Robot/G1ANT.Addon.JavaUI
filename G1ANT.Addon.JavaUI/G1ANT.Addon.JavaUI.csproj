@@ -73,6 +73,13 @@
     <Compile Include="Models\AccessibleRootNode.cs" />
     <Compile Include="Models\RootNodeModel.cs" />
     <Compile Include="Services\AccessBridgeFactory.cs" />
+    <Compile Include="Services\IExtractResources.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\AssemblyService.cs" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\IAssemblyService.cs" />
+    <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\XPathUIElementBuilder.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />

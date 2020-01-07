@@ -1,36 +1,70 @@
 ﻿using G1ANT.Language;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Services
 {
-    public class AccessBridgeFactory
+    public class AccessBridgeFactory : IExtractResources
     {
         private static readonly AccessBridge accessBridge;
+        private readonly IFileService fileService;
+        private readonly IAssemblyService assemblyService;
+        private readonly ISettingsService settingsService;
 
         static AccessBridgeFactory()
         {
-            UnpackLibraries();
-
+            new AccessBridgeFactory(new FileService(), new AssemblyService(), new SettingsService()).ExtractResources();
             accessBridge = new AccessBridge(AbstractSettingsContainer.Instance.UserDocsAddonFolder.FullName);
+
             // needs some (!) time to run in the background in order to collect all java vms/windows + each instance has to be initialized separately
             accessBridge.Functions.Windows_run();
         }
 
+        public AccessBridgeFactory(IFileService fileService, IAssemblyService assemblyService, ISettingsService settingsService) // IoC
+        {
+            this.fileService = fileService;
+            this.assemblyService = assemblyService;
+            this.settingsService = settingsService;
+        }
+
+
+        public AccessBridgeFactory()
+            : this(new FileService(), new AssemblyService(), new SettingsService())
+        { }
+
         public AccessBridge GetAccessBridge() => accessBridge;
 
 
-        private static void UnpackLibraries()
+        public void ExtractResources()
         {
-            var currentAssembly = Assembly.GetExecutingAssembly();
+            var currentAssembly = assemblyService.GetExecutingAssembly();
             var resourceFullNames = currentAssembly.GetManifestResourceNames();
-            var unpackFolder = AbstractSettingsContainer.Instance.UserDocsAddonFolder.FullName;
+            var destinationFolder = settingsService.GetUserDocsAddonFolder();
 
+            var resourceNames = GetResourcesNamesToExtract();
 
+            resourceNames.ForEach(rn => ExtractNewResource(currentAssembly, resourceFullNames, destinationFolder, rn));
+        }
+
+        private void ExtractNewResource(Assembly currentAssembly, string[] resourceFullNames, string destinationFolder, string resourceName)
+        {
+            var resourceFullName = resourceFullNames.Single(e => e.EndsWith(resourceName));
+            var resourceStream = assemblyService.GetManifestResourceStream(currentAssembly, resourceFullName);
+
+            if (!fileService.DoesFileExist(destinationFolder, resourceName) || !fileService.AreFilesOfTheSameLength(resourceStream.Length, destinationFolder, resourceName))
+            {
+                using (var destinationStream = fileService.Create(fileService.Combine(destinationFolder, resourceName)))
+                {
+                    resourceStream.CopyTo(destinationStream);
+                }
+            }
+        }
+
+        private static List<string> GetResourcesNamesToExtract()
+        {
             var resourceNames = new List<string>();
             if (IntPtr.Size == 4)
             {
@@ -39,31 +73,7 @@ namespace G1ANT.Addon.JavaUI.Services
             }
             else
                 resourceNames.Add("WindowsAccessBridge-64.dll");
-
-            foreach (var resourceName in resourceNames)
-            {
-                var resourceFullName = resourceFullNames.Single(e => e.EndsWith(resourceName));
-                var resourceStream = currentAssembly.GetManifestResourceStream(resourceFullName);
-
-                if (!DoesFileExist(unpackFolder, resourceName) || !AreFilesOfTheSameLength(resourceStream.Length, unpackFolder, resourceName))
-                {
-                    using (var destinationStream = File.Create(Path.Combine(unpackFolder, resourceName)))
-                    {
-                        resourceStream.CopyTo(destinationStream);
-                    }
-                }
-            }
+            return resourceNames;
         }
-
-        private static bool DoesFileExist(string folder, string fileName)
-        {
-            return File.Exists(Path.Combine(folder, fileName));
-        }
-
-        private static bool AreFilesOfTheSameLength(long length, string folder, string fileName)
-        {
-            return length == new FileInfo(Path.Combine(folder, fileName)).Length;
-        }
-
     }
 }
