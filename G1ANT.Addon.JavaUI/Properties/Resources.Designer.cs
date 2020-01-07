@@ -79,5 +79,15 @@ namespace G1ANT.Addon.JavaUI.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] WindowsAccessBridgeInterop {
+            get {
+                object obj = ResourceManager.GetObject("WindowsAccessBridgeInterop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

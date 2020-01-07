@@ -157,6 +157,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\WindowsAccessBridgeInterop\bin\Debug\WindowsAccessBridgeInterop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y C:\projects\Addons\G1ANT.Addon.JavaUI\G1ANT.Addon.JavaUI\bin\Debug\G1ANT.Addon.JavaUI.dll C:\Users\Łukasz\Documents\G1ANT.Robot\Add-on\G1ANT.Addon.JavaUI.dll</PostBuildEvent>
