@@ -97,6 +97,7 @@ namespace G1ANT.Addon.JavaUI.Models
             X = info.x;
             Y = info.y;
             IndexInParent = info.indexInParent;
+            Bounds = new Rectangle(X, Y, Width, Height);
         }
 
         private void FillActions(AccessibleContextNode node)
