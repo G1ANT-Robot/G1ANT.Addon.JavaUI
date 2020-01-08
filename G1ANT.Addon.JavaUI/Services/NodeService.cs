@@ -77,7 +77,7 @@ namespace G1ANT.Addon.JavaUI.Services
                 if (accessibleActions.actionsCount > 0)
                 {
                     return accessibleActions.actionInfo
-                        .Where(a => a.name != "")
+                        .Take(accessibleActions.actionsCount)
                         .Select(a => a.name)
                         .ToList();
                 }
