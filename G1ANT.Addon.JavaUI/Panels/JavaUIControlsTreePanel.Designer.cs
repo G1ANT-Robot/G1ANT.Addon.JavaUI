@@ -109,9 +109,7 @@
             this.controlsTree.ShowNodeToolTips = true;
             this.controlsTree.Size = new System.Drawing.Size(222, 389);
             this.controlsTree.TabIndex = 1;
-            this.controlsTree.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.controlsTree_AfterCollapse);
             this.controlsTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.controlsTree_BeforeExpand);
-            this.controlsTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.controlsTree_AfterSelect);
             this.controlsTree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.controlsTree_NodeMouseClick);
             this.controlsTree.DoubleClick += new System.EventHandler(this.controlsTree_DoubleClick);
             // 

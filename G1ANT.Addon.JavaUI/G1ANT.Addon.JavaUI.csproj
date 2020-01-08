@@ -69,7 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\JavaUIControlsTreeController.cs" />
     <Compile Include="Enums\NodeProperty.cs" />
+    <Compile Include="Forms\MarkerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Models\AccessibleRootNode.cs" />
     <Compile Include="Models\RootNodeModel.cs" />
     <Compile Include="Services\AccessBridgeFactory.cs" />
@@ -132,6 +136,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MarkerForm.resx">
+      <DependentUpon>MarkerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\JavaUIControlsTreePanel.resx">
       <DependentUpon>JavaUIControlsTreePanel.cs</DependentUpon>
