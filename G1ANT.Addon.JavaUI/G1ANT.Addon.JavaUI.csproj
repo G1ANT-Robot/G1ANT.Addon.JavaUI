@@ -180,7 +180,4 @@
     <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /y C:\projects\Addons\G1ANT.Addon.JavaUI\G1ANT.Addon.JavaUI\bin\Debug\G1ANT.Addon.JavaUI.dll C:\Users\Łukasz\Documents\G1ANT.Robot\Add-on\G1ANT.Addon.JavaUI.dll</PostBuildEvent>
-  </PropertyGroup>
 </Project>
