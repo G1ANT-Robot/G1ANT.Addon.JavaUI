@@ -85,7 +85,6 @@
     <Compile Include="Services\IAssemblyService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\XPathUIElementBuilder.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Commands\JavaUIGetNodeCommand.cs" />
     <Compile Include="Commands\JavaUISetFocusCommand.cs" />
     <Compile Include="Commands\JavaUISetTextCommand.cs" />
@@ -94,12 +93,6 @@
     <Compile Include="Commands\JavaUIClickCommand.cs" />
     <Compile Include="Commands\JavaUIGetRectangleCommand.cs" />
     <Compile Include="Commands\WaitForJavaUICommand.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="JavaUIAddon.cs" />
     <Compile Include="Models\NodeModel.cs" />
     <Compile Include="Panels\JavaUIControlsTreePanel.cs">
@@ -134,9 +127,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MarkerForm.resx">
       <DependentUpon>MarkerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,4 +170,7 @@
     <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y C:\projects\Addons\G1ANT.Addon.JavaUI\G1ANT.Addon.JavaUI\bin\Debug\G1ANT.Addon.JavaUI.dll C:\Users\Łukasz\Documents\G1ANT.Robot\Add-on\G1ANT.Addon.JavaUI.dll</PostBuildEvent>
+  </PropertyGroup>
 </Project>
