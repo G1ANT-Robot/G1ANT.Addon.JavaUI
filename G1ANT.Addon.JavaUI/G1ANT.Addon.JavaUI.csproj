@@ -162,7 +162,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\WindowsAccessBridgeInterop\bin\Debug\WindowsAccessBridgeInterop.dll">
+    <EmbeddedResource Include="..\WindowsAccessBridgeInterop\bin\$(Configuration)\WindowsAccessBridgeInterop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
