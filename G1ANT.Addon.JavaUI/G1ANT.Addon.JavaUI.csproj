@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\JavaUIMouseClickCommand.cs" />
     <Compile Include="Controllers\JavaUIControlsTreeController.cs" />
     <Compile Include="Enums\NodeProperty.cs" />
     <Compile Include="Forms\MarkerForm.cs">
