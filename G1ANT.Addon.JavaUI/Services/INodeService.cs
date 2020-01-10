@@ -15,6 +15,7 @@ namespace G1ANT.Addon.JavaUI.Services
         AccessibleContextInfo GetNodeInfo(AccessibleNode node);
 
         void SetTextContents(AccessibleNode node, string text);
+        string GetTextContents(AccessibleNode node);
         void RequestFocus(AccessibleNode node);
 
         IEnumerable<string> GetActions(AccessibleContextNode node);

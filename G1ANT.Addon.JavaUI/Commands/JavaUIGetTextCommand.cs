@@ -27,7 +27,7 @@ namespace G1ANT.Addon.UI
         public void Execute(Arguments arguments)
         {
             var node = pathService.GetByXPath(arguments.Path.Value);
-            var text = node.Name;
+            var text = node.GetTextContents();
 
             Scripter.Variables.SetVariableValue(
                 arguments.Result.Value,

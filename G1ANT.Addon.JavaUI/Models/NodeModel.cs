@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Models
@@ -58,6 +59,11 @@ namespace G1ANT.Addon.JavaUI.Models
             nodeService.SetTextContents(Node, text);
         }
 
+        public string GetTextContents()
+        {
+            return nodeService.GetTextContents(Node);
+        }
+
         public void RequestFocus()
         {
             nodeService.RequestFocus(Node);
@@ -66,6 +72,17 @@ namespace G1ANT.Addon.JavaUI.Models
         public NodeModel GetParent()
         {
             var parent = Node.GetParent();
+            return parent != null ? new NodeModel(parent) : null;
+        }
+
+        public NodeModel GetParentWindow()
+        {
+            var parent = Node;
+            while (!(parent is AccessibleWindow) && parent != null)
+            {
+                parent = parent.GetParent();
+            }
+
             return parent != null ? new NodeModel(parent) : null;
         }
 

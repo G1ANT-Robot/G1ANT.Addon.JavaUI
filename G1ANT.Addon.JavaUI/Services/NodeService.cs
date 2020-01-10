@@ -60,6 +60,24 @@ namespace G1ANT.Addon.JavaUI.Services
             else throw new Exception("Node is not AccessibleContextNode");
         }
 
+        public string GetTextContents(AccessibleNode node)
+        {
+            if (node is AccessibleContextNode accessibleNode)
+            {
+                if (node.AccessBridge.Functions.GetAccessibleTextItems(
+                    node.JvmId,
+                    accessibleNode.AccessibleContextHandle,
+                    out AccessibleTextItemsInfo textItemsInfo,
+                    0))
+                {
+                    return textItemsInfo.sentence.TrimEnd('\n');
+                }
+
+                throw new Exception("GetAccessibleTextItems failed");
+            }
+            else throw new Exception("Node is not AccessibleContextNode");
+        }
+
         public void RequestFocus(AccessibleNode node)
         {
             if (node is AccessibleContextNode accessibleNode)
