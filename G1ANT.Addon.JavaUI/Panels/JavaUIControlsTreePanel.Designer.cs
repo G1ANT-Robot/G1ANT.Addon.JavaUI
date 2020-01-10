@@ -39,6 +39,7 @@
             this.controlsTree = new System.Windows.Forms.TreeView();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.highlightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyNodeDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -116,16 +117,24 @@
             // contextMenuStrip
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.highlightToolStripMenuItem});
+            this.highlightToolStripMenuItem,
+            this.copyNodeDetailsToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(125, 26);
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
             // 
             // highlightToolStripMenuItem
             // 
             this.highlightToolStripMenuItem.Name = "highlightToolStripMenuItem";
-            this.highlightToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.highlightToolStripMenuItem.Text = "Highlight";
+            this.highlightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.highlightToolStripMenuItem.Text = "&Highlight";
             this.highlightToolStripMenuItem.Click += new System.EventHandler(this.highlightToolStripMenuItem_Click);
+            // 
+            // copyNodeDetailsToolStripMenuItem
+            // 
+            this.copyNodeDetailsToolStripMenuItem.Name = "copyNodeDetailsToolStripMenuItem";
+            this.copyNodeDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNodeDetailsToolStripMenuItem.Text = "&Copy node details";
+            this.copyNodeDetailsToolStripMenuItem.Click += new System.EventHandler(this.copyNodeDetailsToolStripMenuItem_Click);
             // 
             // JavaUIControlsTreePanel
             // 
@@ -154,5 +163,6 @@
         private System.Windows.Forms.ToolStripMenuItem highlightToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem copyNodeDetailsToolStripMenuItem;
     }
 }

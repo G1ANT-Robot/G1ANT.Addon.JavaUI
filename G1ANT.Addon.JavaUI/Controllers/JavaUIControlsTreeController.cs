@@ -2,8 +2,10 @@
 using G1ANT.Addon.JavaUI.Models;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace G1ANT.Addon.JavaUI.Controllers
@@ -62,6 +64,25 @@ namespace G1ANT.Addon.JavaUI.Controllers
             return treeNode;
         }
 
+        private string FormatLongLine(string line)
+        {
+            const int maxLineLength = 100;
+            if (line.Length <= maxLineLength)
+                return line;
+
+            var sb = new StringBuilder(line.Length);
+            var isFirstLine = true;
+            do
+            {
+                var linePart = line.Substring(0, Math.Min(line.Length, maxLineLength));
+                line = line.Substring(linePart.Length);
+                sb.AppendLine((isFirstLine ? "" : "\t") + linePart);
+                isFirstLine = false;
+            } while (line != "");
+
+            return sb.ToString();
+        }
+
         private string GetTooltip(NodeModel nodeModel)
         {
             var nodeProperties = nodeModel.GetType().GetProperties()
@@ -69,7 +90,14 @@ namespace G1ANT.Addon.JavaUI.Controllers
                 .Select(p => new { Name = p.Name, Value = p.GetValue(nodeModel) })
                 .Select(v => new { Name = v.Name, Value = v.Value is IEnumerable<string> ? string.Join(", ", v.Value as IEnumerable<string>) : v.Value });
 
-            return string.Join("\r\n", nodeProperties.Where(np => !string.IsNullOrEmpty(np.Value?.ToString())).Select(np => $"{np.Name}: {np.Value}"));
+            return string.Join("\r\n", nodeProperties.Where(np => !string.IsNullOrEmpty(np.Value?.ToString())).Select(np => $"{np.Name}: {FormatLongLine(np.Value.ToString())}"));
+        }
+
+        public void CopyNodeDetails(TreeNode treeNode)
+        {
+            var node = (NodeModel)treeNode.Tag;
+            var tooltip = GetTooltip(node);
+            Clipboard.SetText(tooltip);
         }
 
         private static string GetNameForNode(NodeModel nodeModel)
@@ -88,18 +116,18 @@ namespace G1ANT.Addon.JavaUI.Controllers
             return name;
         }
 
-        public void LoadChildNodes(TreeNode currentTreeNode)
+        public void LoadChildNodes(TreeNode treeNode)
         {
-            if (currentTreeNode.Parent == null)
+            if (treeNode.Parent == null)
                 return; // don't clear jvms and their windows as they are already rendered
 
-            var node = (NodeModel)currentTreeNode.Tag;
-            currentTreeNode.Nodes.Clear();
+            var node = (NodeModel)treeNode.Tag;
+            treeNode.Nodes.Clear();
 
             var children = node.GetChildren();
             foreach (var child in children)
             {
-                currentTreeNode.Nodes.Add(CreateTreeNode(child));
+                treeNode.Nodes.Add(CreateTreeNode(child));
             }
         }
 

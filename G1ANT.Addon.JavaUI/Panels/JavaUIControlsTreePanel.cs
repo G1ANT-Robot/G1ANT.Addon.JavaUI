@@ -42,10 +42,13 @@ namespace G1ANT.Addon.JavaUI.Panels
         {
             if (e.Button == MouseButtons.Right)
             {
+                controlsTree.SelectedNode = e.Node;
                 contextMenuStrip.Show(MousePosition);
             }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e) => controller.ShowMarkerForm(controlsTree.SelectedNode);
+
+        private void copyNodeDetailsToolStripMenuItem_Click(object sender, EventArgs e) => controller.CopyNodeDetails(controlsTree.SelectedNode);
     }
 }
