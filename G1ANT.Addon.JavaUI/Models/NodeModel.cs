@@ -86,6 +86,11 @@ namespace G1ANT.Addon.JavaUI.Models
             return parent != null ? new NodeModel(parent) : null;
         }
 
+        public void BringToFront()
+        {
+            nodeService.BringToFront(this);
+        }
+
         public IReadOnlyCollection<NodeModel> GetChildren()
         {
             return nodeService.GetChildNodes(this);

@@ -1,7 +1,9 @@
 ﻿using G1ANT.Addon.JavaUI.Models;
+using G1ANT.Language;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Services
@@ -132,6 +134,22 @@ namespace G1ANT.Addon.JavaUI.Services
                     throw new Exception("DoAccessibleActions failed");
             }
             else throw new Exception("Node is not AccessibleContextNode");
+        }
+
+        public void BringToFront(NodeModel node)
+        {
+            var windowNode = node.GetParentWindow();
+            var accessibleWindow = (AccessibleWindow)windowNode.Node;
+
+            RobotWin32.BringWindowToFront(accessibleWindow.Hwnd);
+
+            if (IsWindowMinimized(windowNode))
+                Thread.Sleep(1000);
+        }
+
+        private static bool IsWindowMinimized(NodeModel windowNode)
+        {
+            return windowNode.X + windowNode.Width < 0 && windowNode.Y + windowNode.Height < 0;
         }
 
     }

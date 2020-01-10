@@ -20,5 +20,6 @@ namespace G1ANT.Addon.JavaUI.Services
 
         IEnumerable<string> GetActions(AccessibleContextNode node);
         void DoAction(AccessibleNode node, string action);
+        void BringToFront(NodeModel nodeModel);
     }
 }

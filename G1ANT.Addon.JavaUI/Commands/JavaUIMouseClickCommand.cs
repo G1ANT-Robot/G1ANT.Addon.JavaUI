@@ -28,13 +28,7 @@ namespace G1ANT.Addon.UI
         public void Execute(Arguments arguments)
         {
             var node = pathService.GetByXPath(arguments.Path.Value);
-            var windowNode = node.GetParentWindow();
-            var accessibleWindow = (AccessibleWindow)windowNode.Node;
-
-            RobotWin32.BringWindowToFront(accessibleWindow.Hwnd);
-
-            if (IsWindowMinimized(windowNode))
-                Thread.Sleep(2000);
+            node.BringToFront();
 
             var currentMousePosition = MouseWin32.GetPhysicalCursorPosition();
             var nodeMiddlePosition = new Point(node.X + node.Width / 2, node.Y + node.Height / 2);
@@ -46,11 +40,6 @@ namespace G1ANT.Addon.UI
                 MouseWin32.MouseEvent(arg.dwFlags, arg.dx, arg.dy, arg.dwData);
                 Thread.Sleep(10);
             }
-        }
-
-        private static bool IsWindowMinimized(NodeModel windowNode)
-        {
-            return windowNode.X + windowNode.Width < 0 && windowNode.Y + windowNode.Height < 0;
         }
     }
 }

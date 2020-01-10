@@ -145,14 +145,17 @@ namespace G1ANT.Addon.JavaUI.Controllers
             }
         }
 
-        public void ShowMarkerForm(TreeNode node)
+        public void ShowMarkerForm(TreeNode treeNode)
         {
-            if (node != null)
+            if (treeNode != null)
             {
-                var bounds = ((NodeModel)node.Tag).Bounds;
+                var node = (NodeModel)treeNode.Tag;
+                var bounds = node.Bounds;
 
                 if (!bounds.IsEmpty && bounds.Width > 0 && bounds.Height >= 0)
                 {
+                    node.BringToFront();
+
                     if (markerForm != null) markerForm.Dispose();
                     markerForm = new MarkerForm();
                     markerForm.ShowMarkerForm(bounds);

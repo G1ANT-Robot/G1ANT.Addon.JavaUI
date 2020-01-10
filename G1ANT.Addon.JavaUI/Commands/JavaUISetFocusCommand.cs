@@ -27,23 +27,12 @@ namespace G1ANT.Addon.UI
             pathService = new PathService();
         }
 
-        private static bool IsWindowMinimized(NodeModel windowNode)
-        {
-            return windowNode.X + windowNode.Width < 0 && windowNode.Y + windowNode.Height < 0;
-        }
-
         public void Execute(Arguments arguments)
         {
             var node = pathService.GetByXPath(arguments.Path.Value);
             if (arguments.BringToFront.Value)
             {
-                var windowNode = node.GetParentWindow();
-                var accessibleWindow = (AccessibleWindow)windowNode.Node;
-
-                RobotWin32.BringWindowToFront(accessibleWindow.Hwnd);
-
-                if (IsWindowMinimized(windowNode))
-                    Thread.Sleep(2000);
+                node.BringToFront();
             }
 
             node.RequestFocus();
