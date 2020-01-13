@@ -137,8 +137,6 @@ namespace G1ANT.Addon.JavaUI.Models
 
         private string GetSpecificElementSelector()
         {
-            if (Node is AccessibleJvm)
-                return $"jvmid='{JvmId}'";
             if (!string.IsNullOrEmpty(Name))
                 return $"name='{Name}'";
             if (!string.IsNullOrEmpty(Role))
@@ -151,7 +149,9 @@ namespace G1ANT.Addon.JavaUI.Models
 
         public string ToXPath()
         {
-            //return "/" + (Node is AccessibleJvm ? JvmId.ToString() : GetSpecificElementSelector());
+            if (Node is AccessibleJvm)
+                return "/*";
+
             return $"/ui[@{GetSpecificElementSelector()}]";
         }
 

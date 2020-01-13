@@ -75,6 +75,13 @@ namespace G1ANT.Addon.JavaUI.Services
             throw new Exception("Child not found");
         }
 
+        protected NodeModel FindSelf(NodeModel node, CompareFunc compare)
+        {
+            if (compare(node, -1))
+                return node;
+            throw new Exception("Self not found");
+        }
+
         protected NodeModel FindDescendantOrSelf(NodeModel node, CompareFunc compare)
         {
             if (compare(node, -1))
@@ -120,21 +127,11 @@ namespace G1ANT.Addon.JavaUI.Services
 
         public object Operator(XPathOperator op, object left, object right)
         {
-            if (op == XPathOperator.Eq)
-            {
-                switch (left)
-                {
-                    case NodeProperty property:
-                        return new CompareFunc((node, index) => GetPropertyValue(node, property)?.Equals(right) == true);
-                }
-            }
+            if (left is NodeProperty property)
+                return new CompareFunc((node, index) => HandleStringOperator(op, GetPropertyValue(node, property), right?.ToString()));
 
-            switch (left)
-            {
-                case GetIndexFunc getIndexFunc:
-                    return new CompareFunc((node, index) => HandleIntOperator(op, getIndexFunc(index), (int)right));
-            }
-
+            if (left is GetIndexFunc getIndexFunc)
+                return new CompareFunc((node, index) => HandleIntOperator(op, getIndexFunc(index), (int)right));
 
             throw new NotSupportedException($"Operator {op.ToString()} is not supported.");
         }
@@ -144,12 +141,24 @@ namespace G1ANT.Addon.JavaUI.Services
             switch (op)
             {
                 case XPathOperator.Eq: return left == right;
+                case XPathOperator.Ne: return left != right;
                 case XPathOperator.Gt: return left > right;
                 case XPathOperator.Ge: return left >= right;
                 case XPathOperator.Le: return left <= right;
                 case XPathOperator.Lt: return left < right;
                 default:
-                    throw new ArgumentOutOfRangeException($"Unsupported operator {op}");
+                    throw new ArgumentOutOfRangeException($"Unsupported int operator {op}");
+            }
+        }
+
+        private static bool HandleStringOperator(XPathOperator op, string left, string right)
+        {
+            switch (op)
+            {
+                case XPathOperator.Eq: return left == right;
+                case XPathOperator.Ne: return left != right;
+                default:
+                    throw new ArgumentOutOfRangeException($"Unsupported string operator {op}");
             }
         }
 
@@ -158,13 +167,22 @@ namespace G1ANT.Addon.JavaUI.Services
             if (xpathAxis == XPathAxis.Root)
                 return new RootNodeModel();
 
+            if (xpathAxis == XPathAxis.Child && nodeType == XPathNodeType.Element && prefix == null && name == null) // handle // in xpath
+                return GetObjectByAxis(xpathAxis, name);
+
             if (nodeType == XPathNodeType.Element && name != "ui")
                 throw new NotSupportedException($"{name} element is not supported.");
 
+            return GetObjectByAxis(xpathAxis, name);
+        }
+
+        private object GetObjectByAxis(XPathAxis xpathAxis, string name)
+        {
             switch (xpathAxis)
             {
                 case XPathAxis.Descendant: return (FindElementFunc)FindDescendant;
                 case XPathAxis.DescendantOrSelf: return (FindElementFunc)FindDescendantOrSelf;
+                case XPathAxis.Self: return (FindElementFunc)FindSelf;
                 case XPathAxis.FollowingSibling: return (FindElementFunc)FindFollowingSibling;
                 case XPathAxis.Child: return (FindElementFunc)FindChild;
                 case XPathAxis.Attribute: return GetNodePropertyByName(name);
@@ -172,6 +190,7 @@ namespace G1ANT.Addon.JavaUI.Services
 
             return null;
         }
+
 
         private static object GetNodePropertyByName(string name)
         {
@@ -186,23 +205,48 @@ namespace G1ANT.Addon.JavaUI.Services
             }
         }
 
+        private NodeModel ValidateResult(NodeModel node)
+        {
+            return node ?? throw new Exception("Node not found");
+        }
+
+        public bool AlwaysTrueComparator(NodeModel node, int index) => true;
+
+
         public object JoinStep(object left, object right)
         {
             if (left is NodeModel elem && right is GetElementFunc func)
             {
                 return func(elem);
             }
+
             if (left is GetElementFunc inner && right is GetElementFunc outer)
             {
-                GetElementFunc retFunc = (element) =>
-                {
-                    var ret = inner(element);
-                    if (ret == null)
-                        throw new Exception("Node not found");
-                    return outer(ret);
-                };
-                return retFunc;
+                return (GetElementFunc)(element => outer(ValidateResult(inner(element))));
             }
+
+            if (left is FindElementFunc innerFindElement1 && right is GetElementFunc outerGetElement1)
+            {
+                return (GetElementFunc)(element => outerGetElement1(
+                    ValidateResult(
+                        innerFindElement1(
+                            element,
+                            AlwaysTrueComparator
+                         )
+                     )
+                 ));
+            }
+
+            if (left is FindElementFunc innerFindElement2 && right is FindElementFunc outerFindElement2)
+            {
+                return (GetElementFunc)(element => outerFindElement2(
+                    ValidateResult(
+                        innerFindElement2(element, AlwaysTrueComparator)
+                    ),
+                    AlwaysTrueComparator)
+                );
+            }
+
             return null;
         }
 
