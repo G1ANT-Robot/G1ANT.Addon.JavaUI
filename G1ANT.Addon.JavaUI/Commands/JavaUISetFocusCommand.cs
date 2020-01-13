@@ -18,7 +18,7 @@ namespace G1ANT.Addon.UI
             [Argument(Required = true, Tooltip = "Desktop Java application UI element to apply the focus")]
             public JavaPathStructure Path { get; set; }
 
-            [Argument(Required = true, Tooltip = "If set to true then brings to front window associated with the node")]
+            [Argument(Required = false, Tooltip = "If set to true then brings to front window associated with the node")]
             public BooleanStructure BringToFront { get; set; }
         }
 
