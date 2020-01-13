@@ -26,7 +26,7 @@ namespace G1ANT.Addon.JavaUI.Services
 
         protected NodeModel FindDescendant(NodeModel node, CompareFunc compare)
         {
-            var children = nodeService.GetChildNodes(node);
+            var children = node.GetChildren();
 
             int index = 0;
             foreach (var child in children)
@@ -44,7 +44,7 @@ namespace G1ANT.Addon.JavaUI.Services
 
         protected NodeModel FindChild(NodeModel node, CompareFunc compare)
         {
-            var children = nodeService.GetChildNodes(node);
+            var children = node.GetChildren();
 
             int index = 0;
             foreach (var child in children)
@@ -58,7 +58,7 @@ namespace G1ANT.Addon.JavaUI.Services
 
         protected NodeModel FindFollowingSibling(NodeModel node, CompareFunc compare)
         {
-            var children = nodeService.GetChildNodes(node);
+            var children = node.GetChildren();
 
             int index = 0;
             foreach (var child in children)

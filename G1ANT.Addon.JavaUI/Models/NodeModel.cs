@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Models
@@ -15,8 +14,9 @@ namespace G1ANT.Addon.JavaUI.Models
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string Role { get; private set; }
-        public IReadOnlyCollection<string> Actions { get; private set; } = new List<string>();
-        public IReadOnlyCollection<string> States { get; private set; } = new List<string>();
+        Lazy<IReadOnlyCollection<string>> actions = new Lazy<IReadOnlyCollection<string>>(() => new List<string>());
+        public IReadOnlyCollection<string> Actions => actions.Value;
+        public IReadOnlyCollection<string> States { get; private set; }
         public Rectangle Bounds { get; private set; }
         public int ChildrenCount { get; private set; }
         public int Height { get; private set; }
@@ -124,7 +124,7 @@ namespace G1ANT.Addon.JavaUI.Models
 
         private void FillActions(AccessibleContextNode node)
         {
-            Actions = nodeService.GetActions(node).ToList();
+            actions = new Lazy<IReadOnlyCollection<string>>(() => nodeService.GetActions(node).ToList());
         }
 
         public void DoAction(string action)
@@ -147,12 +147,14 @@ namespace G1ANT.Addon.JavaUI.Models
             return $"position()={IndexInParent}";
         }
 
+        private string GetElementPrefix() => Node is AccessibleWindow ? "descendant::" : "";
+
         public string ToXPath()
         {
             if (Node is AccessibleJvm)
-                return "/*";
+                return "";
 
-            return $"/ui[@{GetSpecificElementSelector()}]";
+            return $"/{GetElementPrefix()}ui[@{GetSpecificElementSelector()}]";
         }
 
 
