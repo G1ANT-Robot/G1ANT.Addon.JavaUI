@@ -1,9 +1,6 @@
 using G1ANT.Addon.JavaUI;
-using G1ANT.Addon.JavaUI.Models;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
-using System.Threading;
-using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.UI
 {
@@ -19,9 +16,9 @@ namespace G1ANT.Addon.UI
             public JavaPathStructure Path { get; set; }
 
             [Argument(Required = false, Tooltip = "If set to true then brings to front window associated with the node")]
-            public BooleanStructure BringToFront { get; set; }
+            public BooleanStructure BringToFront { get; set; } = new BooleanStructure(false);
         }
-
+   
         public JavaUISetFocusCommand(AbstractScripter scripter) : base(scripter)
         {
             pathService = new PathService();
