@@ -1,4 +1,5 @@
 ﻿using G1ANT.Addon.JavaUI.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,7 +15,7 @@ namespace G1ANT.Addon.JavaUI.Models
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string Role { get; private set; }
-        Lazy<IReadOnlyCollection<string>> actions = new Lazy<IReadOnlyCollection<string>>(() => new List<string>());
+        Lazy<IReadOnlyCollection<string>> actions;
         public IReadOnlyCollection<string> Actions => actions.Value;
         public IReadOnlyCollection<string> States { get; private set; }
         public Rectangle Bounds { get; private set; }
@@ -27,12 +28,14 @@ namespace G1ANT.Addon.JavaUI.Models
 
         private INodeService nodeService;
 
+        [JsonIgnore]
         public AccessibleNode Node { get; private set; }
 
 
         public NodeModel(AccessibleNode node)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
+            actions = new Lazy<IReadOnlyCollection<string>>(() => GetActions(Node));
 
             nodeService = new NodeService(node.AccessBridge);
 
@@ -49,7 +52,6 @@ namespace G1ANT.Addon.JavaUI.Models
                     break;
                 case AccessibleContextNode accessibleContextNode:
                     FillFromAccessibleContextInfo(GetInfo(node));
-                    FillActions(accessibleContextNode);
                     break;
             }
         }
@@ -122,9 +124,12 @@ namespace G1ANT.Addon.JavaUI.Models
             Bounds = new Rectangle(X, Y, Width, Height);
         }
 
-        private void FillActions(AccessibleContextNode node)
+        private List<string> GetActions(AccessibleNode node)
         {
-            actions = new Lazy<IReadOnlyCollection<string>>(() => nodeService.GetActions(node).ToList());
+            if (Node is AccessibleContextNode accessibleContextNode)
+                return nodeService.GetActions(accessibleContextNode).ToList();
+
+            return new List<string>();
         }
 
         public void DoAction(string action)

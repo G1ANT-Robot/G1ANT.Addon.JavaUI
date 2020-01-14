@@ -1,5 +1,4 @@
-﻿using G1ANT.Addon.JavaUI.Services;
-using G1ANT.Language;
+﻿using G1ANT.Language;
 using System;
 
 namespace G1ANT.Addon.JavaUI

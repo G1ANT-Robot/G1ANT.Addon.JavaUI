@@ -1,6 +1,7 @@
 using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
+using Newtonsoft.Json;
 
 namespace G1ANT.Addon.UI
 {
@@ -27,9 +28,11 @@ namespace G1ANT.Addon.UI
         public void Execute(Arguments arguments)
         {
             var node = pathService.GetByXPath(arguments.Path.Value);
+            var json = JsonConvert.SerializeObject(node);
+
             Scripter.Variables.SetVariableValue(
                 arguments.Result.Value,
-                new JavaNodeStructure(node, null, Scripter)
+                new JsonStructure(json)
             );
 
         }

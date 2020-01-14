@@ -112,7 +112,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Structures\JavaNodeStructure.cs" />
     <Compile Include="Structures\JavaPathStructure.cs" />
     <Compile Include="XPathParser\IXPathBuilder.cs" />
     <Compile Include="XPathParser\XPathAxis.cs" />
@@ -171,4 +170,4 @@
     <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+  Project>
