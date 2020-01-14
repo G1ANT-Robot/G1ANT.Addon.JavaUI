@@ -14,7 +14,7 @@ namespace G1ANT.Addon.JavaUI.Services
             return length == new FileInfo(Path.Combine(folder, fileName)).Length;
         }
 
-        public FileStream Create(string path)
+        public Stream Create(string path)
         {
             return File.Create(path);
         }

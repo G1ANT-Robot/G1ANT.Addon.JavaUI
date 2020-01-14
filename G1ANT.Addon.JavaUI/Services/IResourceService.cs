@@ -1,7 +1,9 @@
-﻿namespace G1ANT.Addon.JavaUI.Services
+﻿using System.Collections.Generic;
+
+namespace G1ANT.Addon.JavaUI.Services
 {
     public interface IResourceService
     {
-        void ExtractResources();
+        void ExtractResources(IEnumerable<string> resourceNames);
     }
 }

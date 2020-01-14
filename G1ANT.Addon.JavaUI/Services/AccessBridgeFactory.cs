@@ -1,4 +1,6 @@
-﻿using WindowsAccessBridgeInterop;
+﻿using System;
+using System.Collections.Generic;
+using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Services
 {
@@ -9,7 +11,11 @@ namespace G1ANT.Addon.JavaUI.Services
         static AccessBridgeFactory()
         {
             var settingService = new SettingsService();
-            new ResourceService().ExtractResources();
+            new ResourceService().ExtractResources(
+                IntPtr.Size == 4 
+                    ? new List<string>() { "WindowsAccessBridge-32.dll", "WindowsAccessBridge.dll" }
+                    : new List<string>() { "WindowsAccessBridge-64.dll" }
+            );
 
             accessBridge = new AccessBridge(settingService.GetUserDocsAddonFolder());
 

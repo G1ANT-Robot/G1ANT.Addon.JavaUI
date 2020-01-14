@@ -22,15 +22,13 @@ namespace G1ANT.Addon.JavaUI.Services
           : this(new FileService(), new AssemblyService(), new SettingsService())
         { }
 
-        public void ExtractResources()
+        public void ExtractResources(IEnumerable<string> resourceNames)
         {
             var currentAssembly = assemblyService.GetExecutingAssembly();
-            var resourceFullNames = currentAssembly.GetManifestResourceNames();
+            var resourceFullNames = assemblyService.GetManifestResourceNames(currentAssembly);
             var destinationFolder = settingsService.GetUserDocsAddonFolder();
 
-            var resourceNames = GetResourcesNamesToExtract();
-
-            resourceNames.ForEach(rn => ExtractNewResource(currentAssembly, resourceFullNames, destinationFolder, rn));
+            resourceNames.ToList().ForEach(rn => ExtractNewResource(currentAssembly, resourceFullNames, destinationFolder, rn));
         }
 
         private void ExtractNewResource(Assembly currentAssembly, string[] resourceFullNames, string destinationFolder, string resourceName)
@@ -47,17 +45,5 @@ namespace G1ANT.Addon.JavaUI.Services
             }
         }
 
-        private static List<string> GetResourcesNamesToExtract()
-        {
-            var resourceNames = new List<string>();
-            if (IntPtr.Size == 4)
-            {
-                resourceNames.Add("WindowsAccessBridge-32.dll");
-                resourceNames.Add("WindowsAccessBridge.dll");
-            }
-            else
-                resourceNames.Add("WindowsAccessBridge-64.dll");
-            return resourceNames;
-        }
     }
 }
