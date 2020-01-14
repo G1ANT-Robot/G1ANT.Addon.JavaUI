@@ -29,8 +29,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Services
         [TestFixture]
         public class ExtractResourcesTests : ResourceServiceTests
         {
-            [Test]
-            public void ShouldStoreResourceInStream_WhenAllDataIsCorrect()
+            private void FullDependenciesSetupForStorageChecks(bool doesFileExist, bool areFilesOfTheSameLength)
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var resourcesToExtract = new string[] { "WindowsAccessBridge.mock" };
@@ -62,10 +61,10 @@ namespace G1ANT.Addon.JavaUI.Tests.Services
 
                     fileServiceMock
                         .Setup(fs => fs.DoesFileExist(userDocsAddonFolder, resourcesToExtract[0]))
-                        .Returns(false);
+                        .Returns(doesFileExist);
                     fileServiceMock
                         .Setup(fs => fs.AreFilesOfTheSameLength(resourceStream.Length, userDocsAddonFolder, resourcesToExtract[0]))
-                        .Returns(false);
+                        .Returns(areFilesOfTheSameLength);
                     var combinedPathToDestinationFile = "combinedPathToDestinationFile";
                     fileServiceMock
                         .Setup(fs => fs.Combine(userDocsAddonFolder, resourcesToExtract[0]))
@@ -85,6 +84,61 @@ namespace G1ANT.Addon.JavaUI.Tests.Services
                     );
                 }
             }
+
+            [Test]
+            public void ShouldStoreResourceInStream_WhenDestinationFileDoesNotExist()
+            {
+                FullDependenciesSetupForStorageChecks(false, true);
+            }
+
+            [Test]
+            public void ShouldStoreResourceInStream_WhenDestinationFileDiffersInSize()
+            {
+                FullDependenciesSetupForStorageChecks(true, false);
+            }
+
+            [Test]
+            public void ShouldNotSaveFile_WhenItAlreadyExists()
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resourcesToExtract = new string[] { "WindowsAccessBridge.mock" };
+                var resourceStreamsFullNames = new string[] { "Resources.WindowsAccessBridge.mock" };
+                var userDocsAddonFolder = "userDocsAddonFolder";
+
+                assemblyServiceMock
+                    .Setup(ass => ass.GetExecutingAssembly())
+                    .Returns(assembly);
+                assemblyServiceMock
+                    .Setup(ass => ass.GetManifestResourceNames(assembly))
+                    .Returns(resourceStreamsFullNames);
+                settingsServiceMock
+                    .Setup(ss => ss.GetUserDocsAddonFolder())
+                    .Returns(userDocsAddonFolder);
+
+                var stringToStore = "stringToStore";
+                var bytesToStore = Encoding.UTF8.GetBytes(stringToStore);
+                using (var resourceStream = new MemoryStream(bytesToStore))
+                {
+                    resourceStream.Seek(0, SeekOrigin.Begin);
+
+                    assemblyServiceMock
+                        .Setup(ass => ass.GetManifestResourceStream(assembly, resourceStreamsFullNames[0]))
+                        .Returns(resourceStream);
+
+                    fileServiceMock
+                        .Setup(fs => fs.DoesFileExist(userDocsAddonFolder, resourcesToExtract[0]))
+                        .Returns(true);
+                    fileServiceMock
+                        .Setup(fs => fs.AreFilesOfTheSameLength(resourceStream.Length, userDocsAddonFolder, resourcesToExtract[0]))
+                        .Returns(true);
+
+                    sut.ExtractResources(resourcesToExtract);
+                }
+
+                fileServiceMock.Verify(fs => fs.Create(It.IsAny<string>()), Times.Never);
+            }
+
+
         }
 
     }
