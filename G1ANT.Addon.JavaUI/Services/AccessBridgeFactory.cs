@@ -17,10 +17,10 @@ namespace G1ANT.Addon.JavaUI.Services
                     : new List<string>() { "WindowsAccessBridge-64.dll" }
             );
 
-            accessBridge = new AccessBridge(settingService.GetUserDocsAddonFolder());
-
-            // needs some (!) time to run in the background in order to collect all java vms/windows + each instance has to be initialized separately
-            accessBridge.Functions.Windows_run();
+            // accessBridge.Functions.Windows_run() called by Initialize() needs some (!) time to run in the background
+            // in order to collect all java vms/windows. Also, each JAB client instance has to be initialized separately,
+            // this is the reason why this pseudofactory exists
+            accessBridge = new AccessBridge().Initialize(settingService.GetUserDocsAddonFolder());
         }
 
         public AccessBridge GetAccessBridge() => accessBridge;
