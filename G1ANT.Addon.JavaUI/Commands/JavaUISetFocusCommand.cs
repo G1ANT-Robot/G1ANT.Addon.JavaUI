@@ -1,8 +1,7 @@
-using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.setfocus",
         Tooltip = "This command applies focus to a specified UI element of a desktop Java application window")]
@@ -18,7 +17,7 @@ namespace G1ANT.Addon.JavaUI
             [Argument(Required = false, Tooltip = "If set to true then brings to front window associated with the node")]
             public BooleanStructure BringToFront { get; set; } = new BooleanStructure(false);
         }
-   
+
         public JavaUISetFocusCommand(AbstractScripter scripter) : base(scripter)
         {
             pathService = new PathService();

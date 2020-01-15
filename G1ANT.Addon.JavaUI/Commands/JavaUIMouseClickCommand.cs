@@ -1,12 +1,9 @@
-using G1ANT.Addon.JavaUI;
-using G1ANT.Addon.JavaUI.Models;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 using System.Drawing;
 using System.Threading;
-using WindowsAccessBridgeInterop;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.mouseclick",
         Tooltip = "This command simulats a mouse click at a desktop Java application UI element specified by WPath structure")]

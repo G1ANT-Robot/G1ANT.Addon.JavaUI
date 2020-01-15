@@ -1,12 +1,10 @@
-using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "waitfor.javaui",
         Tooltip = "This command waits for a UI element of a desktop Java application specified by JavaPath structure")]

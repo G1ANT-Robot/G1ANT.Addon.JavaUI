@@ -1,8 +1,7 @@
-using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.doaction",
         Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]

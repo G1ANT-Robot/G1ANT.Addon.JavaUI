@@ -1,9 +1,8 @@
-using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 using Newtonsoft.Json;
 
-namespace G1ANT.Addon.JavaUI
+namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.getnode",
         Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]
