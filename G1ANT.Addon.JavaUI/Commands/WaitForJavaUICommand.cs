@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace G1ANT.Addon.UI
+namespace G1ANT.Addon.JavaUI
 {
     [Command(Name = "waitfor.javaui",
         Tooltip = "This command waits for a UI element of a desktop Java application specified by JavaPath structure")]

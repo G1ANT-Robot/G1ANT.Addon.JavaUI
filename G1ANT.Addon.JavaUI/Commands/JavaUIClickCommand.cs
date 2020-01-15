@@ -1,7 +1,7 @@
 using G1ANT.Addon.JavaUI;
 using G1ANT.Language;
 
-namespace G1ANT.Addon.UI
+namespace G1ANT.Addon.JavaUI
 {
     [Command(Name = "javaui.click",
         Tooltip = "This command clicks a desktop Java application UI element specified by WPath structure")]

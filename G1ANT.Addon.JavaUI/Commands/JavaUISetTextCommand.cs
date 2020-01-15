@@ -2,7 +2,7 @@ using G1ANT.Addon.JavaUI;
 using G1ANT.Addon.JavaUI.Services;
 using G1ANT.Language;
 
-namespace G1ANT.Addon.UI
+namespace G1ANT.Addon.JavaUI
 {
     [Command(Name = "javaui.settext",
         Tooltip = "This command inserts text into a specified UI element of a desktop Java application window")]
