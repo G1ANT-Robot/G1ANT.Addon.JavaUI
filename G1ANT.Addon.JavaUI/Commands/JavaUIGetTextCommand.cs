@@ -4,7 +4,7 @@ using G1ANT.Language;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.gettext",
-        Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]
+        Tooltip = "This command allows to get text from a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUIGetTextCommand : Command
     {
         private IPathService pathService;

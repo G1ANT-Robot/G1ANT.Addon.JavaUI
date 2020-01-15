@@ -4,17 +4,17 @@ using G1ANT.Language;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.settext",
-        Tooltip = "This command inserts text into a specified UI element of a desktop Java application window")]
+        Tooltip = "This command sets text of a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUISetTextCommand : Command
     {
         private IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to set the text")]
+            [Argument(Required = true, Tooltip = "Path to a desktop Java application UI element to set the text")]
             public JavaPathStructure Path { get; set; }
 
-            [Argument(Required = true, Tooltip = "Text to be inserted into a specified UI element")]
+            [Argument(Required = true, Tooltip = "Text to be set at a specified node")]
             public TextStructure Text { get; set; }
         }
 

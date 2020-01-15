@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.getnode",
-        Tooltip = "This command performs an action at a desktop Java application UI element specified by JPath structure")]
+        Tooltip = "This command allows to get node details from a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUIGetNodeCommand : Command
     {
         protected IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to be clicked")]
+            [Argument(Required = true, Tooltip = "XPath to a desktop Java application UI element for which detals are requested")]
             public JavaPathStructure Path { get; set; }
 
             [Argument(Required = true, Tooltip = "Name of a variable where the command's result will be stored")]

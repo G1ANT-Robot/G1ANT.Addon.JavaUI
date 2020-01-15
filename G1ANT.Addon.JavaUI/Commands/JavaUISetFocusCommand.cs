@@ -4,17 +4,17 @@ using G1ANT.Language;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.setfocus",
-        Tooltip = "This command applies focus to a specified UI element of a desktop Java application window")]
+        Tooltip = "This command applies focus to a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUISetFocusCommand : Command
     {
         private IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to apply the focus")]
+            [Argument(Required = true, Tooltip = "Path to a desktop Java application UI element to apply the focus")]
             public JavaPathStructure Path { get; set; }
 
-            [Argument(Required = false, Tooltip = "If set to true then brings to front window associated with the node")]
+            [Argument(Required = false, Tooltip = "Bring to front window associated with the node (false by default)")]
             public BooleanStructure BringToFront { get; set; } = new BooleanStructure(false);
         }
 

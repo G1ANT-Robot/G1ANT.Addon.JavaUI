@@ -7,17 +7,17 @@ using System.Windows.Forms;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "waitfor.javaui",
-        Tooltip = "This command waits for a UI element of a desktop Java application specified by JavaPath structure")]
+        Tooltip = "This command waits for existence of a desktop Java application UI element specified by JavaPath structure")]
     public class WaitForJavaUICommand : Command
     {
         private IPathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop Java application UI element to be awaited")]
+            [Argument(Required = true, Tooltip = "Path to a desktop Java application UI element to be awaited")]
             public JavaPathStructure Path { get; set; }
 
-            [Argument(DefaultVariable = "timeoutui", Tooltip = "Specifies time in milliseconds for G1ANT.Robot to wait for the command to be executed. Default is 10s")]
+            [Argument(DefaultVariable = "timeoutui", Tooltip = "Time in milliseconds for G1ANT.Robot to wait for the command to be executed. Default is 10s")]
             public override TimeSpanStructure Timeout { get; set; } = new TimeSpanStructure(10000);
 
         }

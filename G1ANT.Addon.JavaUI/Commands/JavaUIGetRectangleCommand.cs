@@ -4,7 +4,7 @@ using G1ANT.Language;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.getrectangle",
-        Tooltip = "This command gets a bounding box of a desktop Java application UI element specified by WPath structure")]
+        Tooltip = "This command gets a bounding box of a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUIGetRectangleCommand : Command
     {
         private PathService pathService;

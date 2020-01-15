@@ -6,14 +6,14 @@ using System.Threading;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.mouseclick",
-        Tooltip = "This command simulats a mouse click at a desktop Java application UI element specified by WPath structure")]
+        Tooltip = "This command simulats a mouse click at a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUIMouseClickCommand : Command
     {
         private readonly PathService pathService;
 
         public class Arguments : CommandArguments
         {
-            [Argument(Required = true, Tooltip = "Desktop application UI element to be clicked")]
+            [Argument(Required = true, Tooltip = "Path to a desktop application UI element to be clicked (done by sending mouse left button down/up at element middle)")]
             public JavaPathStructure Path { get; set; }
         }
 
