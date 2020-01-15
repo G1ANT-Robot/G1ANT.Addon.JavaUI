@@ -34,17 +34,15 @@ namespace WindowsAccessBridgeInterop
         private AccessBridgeEvents _events;
         private bool _disposed;
 
-        public AccessBridge(string baseDirectory)
+        public AccessBridge()
         {
             CollectionSizeLimit = 100;
             TextLineCountLimit = 200;
             TextLineLengthLimit = 200;
             TextBufferLengthLimit = 1024;
-
-            Initialize(baseDirectory);
         }
 
-        public AccessBridgeFunctions Functions
+        public virtual AccessBridgeFunctions Functions
         {
             get
             {
@@ -82,7 +80,7 @@ namespace WindowsAccessBridgeInterop
             }
         }
 
-        public bool IsLegacy
+        public virtual bool IsLegacy
         {
             get
             {
@@ -100,11 +98,11 @@ namespace WindowsAccessBridgeInterop
         public event EventHandler Initialized;
         public event EventHandler Disposed;
 
-        private void Initialize(string baseDirectory)
+        public virtual AccessBridge Initialize(string baseDirectory)
         {
             ThrowIfDisposed();
             if (_library != null)
-                return;
+                return this;
 
             var library = LoadLibrary(baseDirectory);
             if (library.IsLegacy)
@@ -131,6 +129,8 @@ namespace WindowsAccessBridgeInterop
             }
             _functions.Windows_run();
             OnInitialized();
+
+            return this;
         }
 
         public void Dispose()

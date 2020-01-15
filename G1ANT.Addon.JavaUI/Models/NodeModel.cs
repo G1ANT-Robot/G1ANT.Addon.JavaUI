@@ -15,9 +15,6 @@ namespace G1ANT.Addon.JavaUI.Models
         public string Name { get; private set; }
         public string Description { get; private set; }
         public string Role { get; private set; }
-        Lazy<IReadOnlyCollection<string>> actions;
-        public IReadOnlyCollection<string> Actions => actions.Value;
-        public IReadOnlyCollection<string> States { get; private set; }
         public Rectangle Bounds { get; private set; }
         public int ChildrenCount { get; private set; }
         public int Height { get; private set; }
@@ -26,18 +23,24 @@ namespace G1ANT.Addon.JavaUI.Models
         public int X { get; private set; }
         public int Y { get; private set; }
 
+        private int actionsCount;
+        private Lazy<IReadOnlyCollection<string>> actions;
+        public IReadOnlyCollection<string> Actions => actions.Value;
+
+        public IReadOnlyCollection<string> States { get; private set; }
+
+
         private INodeService nodeService;
 
         [JsonIgnore]
         public AccessibleNode Node { get; private set; }
 
-
-        public NodeModel(AccessibleNode node)
+        public NodeModel(AccessibleNode node, INodeService nodeService = null)
         {
             Node = node ?? throw new ArgumentNullException(nameof(node));
             actions = new Lazy<IReadOnlyCollection<string>>(() => GetActions(Node));
 
-            nodeService = new NodeService(node.AccessBridge);
+            this.nodeService = nodeService ?? new NodeService(node.AccessBridge);
 
             JvmId = node.JvmId;
             switch (node)
@@ -122,11 +125,12 @@ namespace G1ANT.Addon.JavaUI.Models
             Y = info.y;
             IndexInParent = info.indexInParent;
             Bounds = new Rectangle(X, Y, Width, Height);
+            actionsCount = info.accessibleAction;
         }
 
         private List<string> GetActions(AccessibleNode node)
         {
-            if (Node is AccessibleContextNode accessibleContextNode)
+            if (actionsCount > 0 && Node is AccessibleContextNode accessibleContextNode)
                 return nodeService.GetActions(accessibleContextNode).ToList();
 
             return new List<string>();
@@ -143,11 +147,11 @@ namespace G1ANT.Addon.JavaUI.Models
         private string GetSpecificElementSelector()
         {
             if (!string.IsNullOrEmpty(Name))
-                return $"name='{Name}'";
+                return $"@name='{Name}'";
             if (!string.IsNullOrEmpty(Role))
-                return $"role='{Role}'";
+                return $"@role='{Role}'";
             if (Id != 0)
-                return $"id='{Id}'";
+                return $"@id='{Id}'";
 
             return $"position()={IndexInParent}";
         }
@@ -159,7 +163,7 @@ namespace G1ANT.Addon.JavaUI.Models
             if (Node is AccessibleJvm)
                 return "";
 
-            return $"/{GetElementPrefix()}ui[@{GetSpecificElementSelector()}]";
+            return $"/{GetElementPrefix()}ui[{GetSpecificElementSelector()}]";
         }
 
 
