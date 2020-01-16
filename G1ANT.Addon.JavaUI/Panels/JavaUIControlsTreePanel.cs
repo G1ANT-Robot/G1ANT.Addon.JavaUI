@@ -5,7 +5,8 @@ using System.Windows.Forms;
 
 namespace G1ANT.Addon.JavaUI.Panels
 {
-    [Panel(Name = "Java windows and controls tree", DockingSide = DockingSide.Right, InitialAppear = false, Width = 400)]
+    [Panel(Name = "Java windows and controls tree", DockingSide = DockingSide.Right, InitialAppear = false, Width = 400, 
+        Description = "Panel with java windows and controls tree accessible through Java Access Bridge")]
     public partial class JavaUIControlsTreePanel : RobotPanel
     {
         private JavaUIControlsTreeController controller;
