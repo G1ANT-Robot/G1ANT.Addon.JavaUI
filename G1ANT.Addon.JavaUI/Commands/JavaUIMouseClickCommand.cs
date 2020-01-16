@@ -6,7 +6,7 @@ using System.Threading;
 namespace G1ANT.Addon.JavaUI.Commands
 {
     [Command(Name = "javaui.mouseclick",
-        Tooltip = "This command simulats a mouse click at a desktop Java application UI element specified by JavaPath structure")]
+        Tooltip = "This command simulates a mouse click at a desktop Java application UI element specified by JavaPath structure")]
     public class JavaUIMouseClickCommand : Command
     {
         private readonly PathService pathService;
