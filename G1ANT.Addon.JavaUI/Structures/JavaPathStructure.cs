@@ -3,16 +3,16 @@ using System;
 
 namespace G1ANT.Addon.JavaUI
 {
-    [Structure(Name = "jpath", Default = "", AutoCreate = false)]
-    public class JPathStructure : StructureTyped<string>
+    [Structure(Name = "javapath", Default = "", AutoCreate = false)]
+    public class JavaPathStructure : StructureTyped<string>
     {
-        public JPathStructure(string value, string format = "", AbstractScripter scripter = null) :
+        public JavaPathStructure(string value, string format = "", AbstractScripter scripter = null) :
             base(value, format, scripter)
         {
             Init();
         }
 
-        public JPathStructure(object value, string format = null, AbstractScripter scripter = null)
+        public JavaPathStructure(object value, string format = null, AbstractScripter scripter = null)
             : base(value, format, scripter)
         {
             Init();
@@ -25,7 +25,7 @@ namespace G1ANT.Addon.JavaUI
         public override Structure Get(string index = "")
         {
             if (string.IsNullOrWhiteSpace(index))
-                return new JPathStructure(Value, Format);
+                return new JavaPathStructure(Value, Format);
             throw new ArgumentException($"Unknown index '{index}'");
         }
 
@@ -47,10 +47,10 @@ namespace G1ANT.Addon.JavaUI
         protected override string Parse(string value, string format = null)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return value;
+                throw new ArgumentNullException(nameof(value));
 
             if (value.StartsWith(SpecialChars.Text) && value.EndsWith(SpecialChars.Text))
-                return value.Substring(1).Substring(0, value.Length - 2);
+                value = value.Substring(1).Substring(0, value.Length - 2);
 
             return value;
         }

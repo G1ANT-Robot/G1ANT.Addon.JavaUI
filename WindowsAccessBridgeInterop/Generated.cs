@@ -129,6 +129,7 @@ namespace WindowsAccessBridgeInterop {
     public abstract void RemoveAccessibleSelectionFromContext(int vmid, JavaObjectHandle asel, int i);
     public abstract void SelectAllAccessibleSelectionFromContext(int vmid, JavaObjectHandle asel);
     public abstract bool SetTextContents(int vmid, JavaObjectHandle ac, string text);
+    public abstract bool RequestFocus(int vmid, JavaObjectHandle ac);
     /// <summary>
     /// Initialization, needs to be called before any other entry point.
     /// </summary>
