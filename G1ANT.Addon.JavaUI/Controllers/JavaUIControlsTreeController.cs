@@ -29,7 +29,21 @@ namespace G1ANT.Addon.JavaUI.Controllers
 
         public void Initialize(IMainForm mainForm) => this.mainForm  = mainForm;
 
-        public void InitRootElements(TreeView controlsTree)
+
+        public void Reload(TreeView controlsTree) => InitRootElements(controlsTree);
+
+        private bool alreadyReloaded = false;
+        public void ReloadOnce(TreeView controlsTree)
+        {
+            if (!alreadyReloaded)
+            {
+                Reload(controlsTree);
+                alreadyReloaded = true;
+            }
+        }
+
+
+        private void InitRootElements(TreeView controlsTree)
         {
             controlsTree.BeginUpdate();
             controlsTree.Nodes.Clear();
