@@ -8,6 +8,13 @@ using WindowsAccessBridgeInterop;
 
 namespace G1ANT.Addon.JavaUI.Models
 {
+    public enum NodeType
+    {
+        Jvm,
+        Window,
+        Element
+    }
+
     public class NodeModel : IDisposable
     {
         public int JvmId { get; private set; }
@@ -22,6 +29,8 @@ namespace G1ANT.Addon.JavaUI.Models
         public int Width { get; private set; }
         public int X { get; private set; }
         public int Y { get; private set; }
+
+        public NodeType NodeType { get; private set; }
 
         private int actionsCount;
         private Lazy<IReadOnlyCollection<string>> actions;
@@ -48,12 +57,15 @@ namespace G1ANT.Addon.JavaUI.Models
                 case AccessibleJvm accessibleJvm:
                     Id = accessibleJvm.JvmId;
                     Name = accessibleJvm.GetTitle();
+                    NodeType = NodeType.Jvm;
                     break;
                 case AccessibleWindow accessibleWindow:
                     Id = (int)accessibleWindow.Hwnd;
                     FillFromAccessibleContextInfo(GetInfo(node));
+                    NodeType = NodeType.Window;
                     break;
                 case AccessibleContextNode accessibleContextNode:
+                    NodeType = NodeType.Element;
                     FillFromAccessibleContextInfo(GetInfo(node));
                     break;
             }
@@ -171,6 +183,18 @@ namespace G1ANT.Addon.JavaUI.Models
         {
             Node.Dispose();
         }
+
+
+        public bool IsSame(NodeModel other)
+        {
+            if (NodeType != other.NodeType)
+                return false;
+
+            if (Id > 0 && Id == other.Id)
+                return true;
+
+            // can't compare ((AccessibleContextNode)Node).AccessibleContextHandle.Handle because it changes with each refresh...
+            return IndexInParent == other.IndexInParent && Name == other.Name && Role == other.Role && X == other.X && Y == other.Y;
+        }
     }
 }
-

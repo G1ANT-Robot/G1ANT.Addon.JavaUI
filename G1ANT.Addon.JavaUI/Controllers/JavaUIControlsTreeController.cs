@@ -27,7 +27,7 @@ namespace G1ANT.Addon.JavaUI.Controllers
             this.pathService = pathService;
         }
 
-        public void Initialize(IMainForm mainForm) => this.mainForm  = mainForm;
+        public void Initialize(IMainForm mainForm) => this.mainForm = mainForm;
 
 
         public void Reload(TreeView controlsTree) => InitRootElements(controlsTree);
@@ -42,9 +42,17 @@ namespace G1ANT.Addon.JavaUI.Controllers
             }
         }
 
+        private HashSet<NodeModel> expandedTreeNodes;
+        private NodeModel selectedTreeNode;
+        private TreeView controlsTree;
 
         private void InitRootElements(TreeView controlsTree)
         {
+            this.controlsTree = controlsTree;
+            selectedTreeNode = (NodeModel)controlsTree.SelectedNode?.Tag;
+            expandedTreeNodes = new HashSet<NodeModel>();
+            CollectExpandedTreeNodes(controlsTree.Nodes);
+
             controlsTree.BeginUpdate();
             controlsTree.Nodes.Clear();
 
@@ -62,6 +70,42 @@ namespace G1ANT.Addon.JavaUI.Controllers
             }
 
             controlsTree.EndUpdate();
+            ApplyExpandedTreeNodes(controlsTree.Nodes);
+        }
+
+        
+
+        private void ApplyExpandedTreeNodes(TreeNodeCollection nodes)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                var nodeModel = (NodeModel)node.Tag;
+
+                if (selectedTreeNode != null && nodeModel.IsSame(selectedTreeNode))
+                    controlsTree.SelectedNode = node;
+
+                var expandedTreeNode = expandedTreeNodes.FirstOrDefault(etn => etn.IsSame(nodeModel));
+                if (expandedTreeNode != null)
+                {
+                    LoadChildNodes(node);
+                    node.Expand();
+
+                    ApplyExpandedTreeNodes(node.Nodes);
+                    expandedTreeNodes.Remove(expandedTreeNode);
+                }
+            }
+        }
+
+        private void CollectExpandedTreeNodes(TreeNodeCollection nodes)
+        {
+            var expandedNodes = nodes.Cast<TreeNode>()
+                .Where(tn => tn.IsExpanded)
+                .ToList();
+            expandedNodes.ForEach(en =>
+            {
+                expandedTreeNodes.Add((NodeModel)en.Tag);
+                CollectExpandedTreeNodes(en.Nodes);
+            });
         }
 
         private TreeNode CreateTreeNode(NodeModel nodeModel)
