@@ -9,7 +9,7 @@ namespace G1ANT.Addon.JavaUI.Services
         IReadOnlyList<AccessibleJvm> GetJvms();
         IReadOnlyList<NodeModel> GetJvmNodes();
 
-        IReadOnlyList<AccessibleNode> GetChildren(AccessibleNode node);
+        IEnumerable<AccessibleNode> GetChildren(AccessibleNode node);
         IReadOnlyList<NodeModel> GetChildNodes(NodeModel node);
 
         AccessibleContextInfo GetNodeInfo(AccessibleNode node);
