@@ -20,7 +20,7 @@ namespace G1ANT.Addon.JavaUI.Services
             // accessBridge.Functions.Windows_run() called by Initialize() needs some (!) time to run in the background
             // in order to collect all java vms/windows. Also, each JAB client instance has to be initialized separately,
             // this is the reason why this pseudofactory exists
-            accessBridge = new AccessBridge().Initialize(settingService.GetUserDocsAddonFolder());
+            accessBridge = new AccessBridge() { CollectionSizeLimit = 4096 }.Initialize(settingService.GetUserDocsAddonFolder());
         }
 
         public AccessBridge GetAccessBridge() => accessBridge;

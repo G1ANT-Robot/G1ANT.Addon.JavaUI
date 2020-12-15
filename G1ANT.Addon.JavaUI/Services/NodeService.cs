@@ -36,9 +36,9 @@ namespace G1ANT.Addon.JavaUI.Services
                 .ToList();
         }
 
-        public IReadOnlyList<AccessibleNode> GetChildren(AccessibleNode node)
+        public IEnumerable<AccessibleNode> GetChildren(AccessibleNode node)
         {
-            return node.GetChildren().ToList();
+            return node.GetChildren();
         }
 
         public AccessibleContextInfo GetNodeInfo(AccessibleNode node)
