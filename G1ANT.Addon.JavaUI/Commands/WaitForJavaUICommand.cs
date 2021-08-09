@@ -36,9 +36,9 @@ namespace G1ANT.Addon.JavaUI.Commands
             {
                 try
                 {
-                    var nodes = pathService.GetByXPath(arguments.Path.Value);
-                    if (nodes != null)
-                        return;
+                    using (var nodes = pathService.GetByXPath(arguments.Path.Value))
+                        if (nodes != null)
+                            return;
                 }
                 catch { }
 
