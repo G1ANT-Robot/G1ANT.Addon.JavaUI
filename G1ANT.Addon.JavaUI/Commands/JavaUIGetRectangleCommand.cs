@@ -25,11 +25,11 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            Scripter.Variables.SetVariableValue(
-                arguments.Result.Value,
-                new RectangleStructure(node.Bounds, null, Scripter)
-            );
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
+                Scripter.Variables.SetVariableValue(
+                    arguments.Result.Value,
+                    new RectangleStructure(node.Bounds, null, Scripter)
+                );
         }
     }
 }

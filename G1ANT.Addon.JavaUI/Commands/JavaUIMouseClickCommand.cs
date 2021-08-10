@@ -24,18 +24,20 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            node.BringToFront();
-
-            var currentMousePosition = MouseWin32.GetPhysicalCursorPosition();
-            var nodeMiddlePosition = new Point(node.X + node.Width / 2, node.Y + node.Height / 2);
-
-            var mouseArgs = MouseStr.ToMouseEventsArgs(nodeMiddlePosition.X, nodeMiddlePosition.Y, currentMousePosition.X, currentMousePosition.Y, "left");
-
-            foreach (var arg in mouseArgs)
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
             {
-                MouseWin32.MouseEvent(arg.dwFlags, arg.dx, arg.dy, arg.dwData);
-                Thread.Sleep(10);
+                node.BringToFront();
+
+                var currentMousePosition = MouseWin32.GetPhysicalCursorPosition();
+                var nodeMiddlePosition = new Point(node.X + node.Width / 2, node.Y + node.Height / 2);
+
+                var mouseArgs = MouseStr.ToMouseEventsArgs(nodeMiddlePosition.X, nodeMiddlePosition.Y, currentMousePosition.X, currentMousePosition.Y, "left");
+
+                foreach (var arg in mouseArgs)
+                {
+                    MouseWin32.MouseEvent(arg.dwFlags, arg.dx, arg.dy, arg.dwData);
+                    Thread.Sleep(10);
+                }
             }
         }
     }
