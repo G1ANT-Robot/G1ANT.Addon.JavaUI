@@ -16,6 +16,7 @@ namespace G1ANT.Addon.JavaUI.Controllers
         private readonly IPathService pathService;
         private IMainForm mainForm;
         private MarkerForm markerForm;
+        private bool forceIndexInXPath = false;
 
         public JavaUIControlsTreeController()
             : this(new NodeService(new AccessBridgeFactory().GetAccessBridge()), new PathService())
@@ -189,12 +190,17 @@ namespace G1ANT.Addon.JavaUI.Controllers
             }
         }
 
+        public void SetForceIndex(bool force)
+        {
+            forceIndexInXPath = force;
+        }
+
         public void InsertPathIntoScript(TreeNode node)
         {
             if (node != null)
             {
                 var nodeModel = (NodeModel)node.Tag;
-                var path = pathService.GetXPathTo(nodeModel);
+                var path = pathService.GetXPathTo(nodeModel, forceIndexInXPath);
 
                 if (mainForm == null)
                     MessageBox.Show(path);

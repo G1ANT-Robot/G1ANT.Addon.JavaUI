@@ -156,26 +156,28 @@ namespace G1ANT.Addon.JavaUI.Models
             nodeService.DoAction(Node, action);
         }
 
-        private string GetSpecificElementSelector()
+        private string GetSpecificElementSelector(bool forceIndex)
         {
-            if (!string.IsNullOrEmpty(Name))
-                return $"@name='{Name}'";
-            if (!string.IsNullOrEmpty(Role))
-                return $"@role='{Role}'";
-            if (Id != 0)
-                return $"@id='{Id}'";
-
+            if (!forceIndex || IndexInParent == -1)
+            {
+                if (!string.IsNullOrEmpty(Name))
+                    return $"@name='{Name}'";
+                if (!string.IsNullOrEmpty(Role))
+                    return $"@role='{Role}'";
+                if (Id != 0)
+                    return $"@id='{Id}'";
+            }
             return $"position()={IndexInParent}";
         }
 
         private string GetElementPrefix() => Node is AccessibleWindow ? "descendant::" : "";
 
-        public string ToXPath()
+        public string ToXPath(bool forceIndex)
         {
             if (Node is AccessibleJvm)
                 return "";
 
-            return $"/{GetElementPrefix()}ui[{GetSpecificElementSelector()}]";
+            return $"/{GetElementPrefix()}ui[{GetSpecificElementSelector(forceIndex)}]";
         }
 
 

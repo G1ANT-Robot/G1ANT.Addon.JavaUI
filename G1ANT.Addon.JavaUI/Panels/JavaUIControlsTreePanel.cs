@@ -25,6 +25,7 @@ namespace G1ANT.Addon.JavaUI.Panels
         {
             base.Initialize(mainForm);
             controller.Initialize(mainForm);
+            controller.SetForceIndex(forceIndexButton.Checked);
         }
 
         public override void RefreshContent() => controller.ReloadOnce(controlsTree);
@@ -51,5 +52,7 @@ namespace G1ANT.Addon.JavaUI.Panels
         private void toolStripButton1_Click(object sender, EventArgs e) => controller.ShowMarkerForm(controlsTree.SelectedNode);
 
         private void copyNodeDetailsToolStripMenuItem_Click(object sender, EventArgs e) => controller.CopyNodeDetails(controlsTree.SelectedNode);
+
+        private void forceIndexButton_Click(object sender, EventArgs e) => controller.SetForceIndex(forceIndexButton.Checked);  
     }
 }

@@ -191,7 +191,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
             {
                 var node = new AccessibleJvm(accessBridgeMock.Object, It.IsAny<int>());
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                Assert.AreEqual("", mut.ToXPath());
+                Assert.AreEqual("", mut.ToXPath(false));
             }
 
             [Test]
@@ -201,7 +201,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
                 SetupContextInfo(new AccessibleContextInfo());
 
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                StringAssert.StartsWith("/descendant::", mut.ToXPath());
+                StringAssert.StartsWith("/descendant::", mut.ToXPath(false));
             }
 
             [Test]
@@ -212,7 +212,19 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
                 SetupContextInfo(new AccessibleContextInfo() { name = name });
 
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                Assert.AreEqual($"/ui[@name='{name}']", mut.ToXPath());
+                Assert.AreEqual($"/ui[@name='{name}']", mut.ToXPath(false));
+            }
+
+            [Test]
+            public void ShouldReturnPathByIndex_WhenNodeIsAccessibleContextNodeWithName()
+            {
+                var indexInParent = 1;
+                var name = "name";
+                var node = GetTestContextNode();
+                SetupContextInfo(new AccessibleContextInfo() { name = name, indexInParent = indexInParent });
+
+                mut = new NodeModel(node, nodeServiceMock.Object);
+                Assert.AreEqual($"/ui[position()={indexInParent}]", mut.ToXPath(true));
             }
 
             [Test]
@@ -223,7 +235,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
                 SetupContextInfo(new AccessibleContextInfo() { name = "", role = role });
 
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                Assert.AreEqual($"/ui[@role='{role}']", mut.ToXPath());
+                Assert.AreEqual($"/ui[@role='{role}']", mut.ToXPath(false));
             }
 
             [Test]
@@ -234,7 +246,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
                 SetupContextInfo(new AccessibleContextInfo() { name = "", role = "" });
 
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                Assert.AreEqual($"/descendant::ui[@id='{id}']", mut.ToXPath());
+                Assert.AreEqual($"/descendant::ui[@id='{id}']", mut.ToXPath(false));
             }
 
             [Test]
@@ -245,7 +257,7 @@ namespace G1ANT.Addon.JavaUI.Tests.Models
                 SetupContextInfo(new AccessibleContextInfo() { name = "", role = "", indexInParent = indexInParent });
 
                 mut = new NodeModel(node, nodeServiceMock.Object);
-                Assert.AreEqual($"/ui[position()={indexInParent}]", mut.ToXPath());
+                Assert.AreEqual($"/ui[position()={indexInParent}]", mut.ToXPath(false));
             }
         }
 

@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JavaUIControlsTreePanel));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.forceIndexButton = new System.Windows.Forms.ToolStripButton();
             this.insertWPathButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -47,6 +48,7 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.forceIndexButton,
             this.insertWPathButton,
             this.toolStripSeparator1,
             this.toolStripButton1,
@@ -57,6 +59,18 @@
             this.toolStrip.Size = new System.Drawing.Size(222, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
+            // 
+            // forceIndexButton
+            // 
+            this.forceIndexButton.CheckOnClick = true;
+            this.forceIndexButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.forceIndexButton.Image = global::G1ANT.Addon.JavaUI.Properties.Resources.force_index;
+            this.forceIndexButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.forceIndexButton.Name = "forceIndexButton";
+            this.forceIndexButton.Size = new System.Drawing.Size(23, 22);
+            this.forceIndexButton.Text = "Force indexes";
+            this.forceIndexButton.ToolTipText = "Force indexes in WPath";
+            this.forceIndexButton.Click += new System.EventHandler(this.forceIndexButton_Click);
             // 
             // insertWPathButton
             // 
@@ -120,19 +134,19 @@
             this.highlightToolStripMenuItem,
             this.copyNodeDetailsToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip.Size = new System.Drawing.Size(170, 48);
             // 
             // highlightToolStripMenuItem
             // 
             this.highlightToolStripMenuItem.Name = "highlightToolStripMenuItem";
-            this.highlightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.highlightToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.highlightToolStripMenuItem.Text = "&Highlight";
             this.highlightToolStripMenuItem.Click += new System.EventHandler(this.highlightToolStripMenuItem_Click);
             // 
             // copyNodeDetailsToolStripMenuItem
             // 
             this.copyNodeDetailsToolStripMenuItem.Name = "copyNodeDetailsToolStripMenuItem";
-            this.copyNodeDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyNodeDetailsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.copyNodeDetailsToolStripMenuItem.Text = "&Copy node details";
             this.copyNodeDetailsToolStripMenuItem.Click += new System.EventHandler(this.copyNodeDetailsToolStripMenuItem_Click);
             // 
@@ -164,5 +178,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem copyNodeDetailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton forceIndexButton;
     }
 }
