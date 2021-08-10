@@ -176,7 +176,6 @@ namespace G1ANT.Addon.JavaUI.Models
         {
             if (Node is AccessibleJvm)
                 return "";
-
             return $"/{GetElementPrefix()}ui[{GetSpecificElementSelector(forceIndex)}]";
         }
 
