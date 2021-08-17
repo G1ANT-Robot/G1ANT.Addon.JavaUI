@@ -16,12 +16,12 @@ namespace G1ANT.Addon.JavaUI.Services
             throw new ArgumentException($"Cannot find UI element described by \"{xpath}\".");
         }
 
-        public string GetXPathTo(NodeModel node)
+        public string GetXPathTo(NodeModel node, bool forceIndex)
         {
             var path = new List<string>();
             do
             {
-                path.Add(node.ToXPath());
+                path.Add(node.ToXPath(forceIndex));
                 node = node.GetParent();
             } while (node != null);
 

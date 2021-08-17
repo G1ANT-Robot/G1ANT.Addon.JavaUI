@@ -7,6 +7,6 @@ namespace G1ANT.Addon.JavaUI.Services
     {
         NodeModel GetByXPath(string xpath);
 
-        string GetXPathTo(NodeModel node);
+        string GetXPathTo(NodeModel node, bool forceIndex);
     }
 }
