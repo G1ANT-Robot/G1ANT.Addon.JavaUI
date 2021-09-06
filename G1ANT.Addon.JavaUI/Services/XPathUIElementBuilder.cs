@@ -133,7 +133,21 @@ namespace G1ANT.Addon.JavaUI.Services
             if (left is GetIndexFunc getIndexFunc)
                 return new CompareFunc((node, index) => HandleIntOperator(op, getIndexFunc(index), (int)right));
 
+            if (left is CompareFunc leftComparer && right is CompareFunc rightComparer)
+                return new CompareFunc((node, index) => HandleBinaryOperator(op, leftComparer(node, index), rightComparer(node, index)));
+
             throw new NotSupportedException($"Operator {op.ToString()} is not supported.");
+        }
+
+        private static bool HandleBinaryOperator(XPathOperator op, bool left, bool right)
+        {
+            switch (op)
+            {
+                case XPathOperator.And: return left && right;
+                case XPathOperator.Or: return left || right;
+                default:
+                    throw new ArgumentOutOfRangeException($"Unsupported binary operator {op}");
+            }
         }
 
         private static bool HandleIntOperator(XPathOperator op, int left, int right)
