@@ -26,14 +26,15 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            var json = JsonConvert.SerializeObject(node);
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
+            {
+                var json = JsonConvert.SerializeObject(node);
 
-            Scripter.Variables.SetVariableValue(
-                arguments.Result.Value,
-                new JsonStructure(json)
-            );
-
+                Scripter.Variables.SetVariableValue(
+                    arguments.Result.Value,
+                    new JsonStructure(json)
+                );
+            }
         }
     }
 }

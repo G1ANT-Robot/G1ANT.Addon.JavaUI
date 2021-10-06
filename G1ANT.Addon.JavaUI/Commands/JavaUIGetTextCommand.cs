@@ -25,13 +25,15 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            var text = node.GetTextContents();
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
+            {
+                var text = node.GetTextContents();
 
-            Scripter.Variables.SetVariableValue(
-                arguments.Result.Value,
-                new TextStructure(text, null, Scripter)
-            );
+                Scripter.Variables.SetVariableValue(
+                    arguments.Result.Value,
+                    new TextStructure(text, null, Scripter)
+                );
+            }
         }
     }
 }

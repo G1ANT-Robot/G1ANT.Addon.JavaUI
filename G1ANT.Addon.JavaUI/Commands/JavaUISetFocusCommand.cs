@@ -25,13 +25,15 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            if (arguments.BringToFront.Value)
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
             {
-                node.BringToFront();
-            }
+                if (arguments.BringToFront.Value)
+                {
+                    node.BringToFront();
+                }
 
-            node.RequestFocus();
+                node.RequestFocus();
+            }
         }
     }
 }

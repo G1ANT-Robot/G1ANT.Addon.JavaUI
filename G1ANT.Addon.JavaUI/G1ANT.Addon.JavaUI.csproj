@@ -170,5 +170,11 @@
   <ItemGroup>
     <None Include="Resources\search.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\force_index.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\force_index.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,8 +17,8 @@ namespace G1ANT.Addon.JavaUI.Commands
 
         public void Execute(Arguments arguments)
         {
-            var node = pathService.GetByXPath(arguments.Path.Value);
-            node.DoAction("click");
+            using (var node = pathService.GetByXPath(arguments.Path.Value))
+                node.DoAction("click");
         }
     }
 }
